@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ClusterCompactResource extends JsonResource
+class RecordsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,9 @@ class ClusterCompactResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'name'=>$this->name,
-            'created'=>$this->created
+            'email'=>$this->email,
+            'login'=>$this->login,
+            'password'=>$this->password,
         ];
     }
 }

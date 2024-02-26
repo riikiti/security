@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Cluster extends Model
 {
@@ -25,5 +26,10 @@ class Cluster extends Model
     public function getUserEmailAttribute(): string
     {
         return $this->user->email;
+    }
+
+    public function records(): HasMany
+    {
+        return $this->hasMany(Record::class, 'cluster_id', 'id');
     }
 }

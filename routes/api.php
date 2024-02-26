@@ -30,3 +30,4 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 });
 
 Route::get('clusters/{id}',[ClusterController::class,'index']);
+Route::get('cluster',[ClusterController::class,'show'])->middleware('cluster-password');
