@@ -29,5 +29,5 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::post('register', [RegisterController::class, 'register'])->withoutMiddleware('api');
 });
 
-Route::get('clusters/{id}',[ClusterController::class,'index']);
+Route::get('clusters',[ClusterController::class,'index']);
 Route::get('cluster',[ClusterController::class,'show'])->middleware('cluster-password');
