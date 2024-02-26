@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('clusters', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users', 'id')->cascadeOnDelete();
+            $table->string('password');
             $table->string('name');
             $table->timestamps();
         });

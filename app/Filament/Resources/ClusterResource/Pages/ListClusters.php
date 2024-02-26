@@ -11,4 +11,10 @@ class ListClusters extends ListRecords
     protected static string $resource = ClusterResource::class;
 
     protected static ?string $title = 'Кластеры';
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\CreateAction::make(),
+        ];
+    }
 }

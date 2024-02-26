@@ -10,7 +10,7 @@ class Cluster extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'name'];
+    protected $fillable = ['user_id', 'name', 'password'];
 
     public function user(): BelongsTo
     {
@@ -21,6 +21,7 @@ class Cluster extends Model
     {
         return date('d.m.Y', strtotime($this->created_at));
     }
+
     public function getUserEmailAttribute(): string
     {
         return $this->user->email;

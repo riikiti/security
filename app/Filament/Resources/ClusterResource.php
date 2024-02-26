@@ -29,6 +29,7 @@ class ClusterResource extends Resource
             ->schema([
                 Forms\Components\Section::make('Кластер')->schema([
                     TextInput::make('name')->label('Название')->required()->maxValue(64),
+                    TextInput::make('password')->label('Пароль')->required()->maxValue(64),
                     Select::make('user_id')
                         ->label('Пользователь')
                         ->options(User::all()->pluck('name', 'id'))
