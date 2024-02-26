@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ClusterMiddleware
 {
-
     public function handle(Request $request, Closure $next): Response
     {
         $validated_data = $request->validate([
