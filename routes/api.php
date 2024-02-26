@@ -30,6 +30,8 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::post('register', [RegisterController::class, 'register'])->withoutMiddleware('api');
 });
 
+//todo refactor routes to apiResource
+
 Route::middleware(['check-token'])->group(function () {
     Route::group(['middleware' => 'cluster-password', 'prefix' => 'clusters'], function () {
         Route::get('/', [ClusterController::class, 'index'])->withoutMiddleware('cluster-password');
