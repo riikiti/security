@@ -26,6 +26,7 @@ class RegisterRequest extends FormRequest
             'password'=>'required',
             'confirm_password'=>'required|same:password',
             'role'=>'required',
+            'name'=>'required',
         ];
     }
 
