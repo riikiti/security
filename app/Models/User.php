@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Filament\Panel;
 use Filament\Models\Contracts\FilamentUser;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
@@ -64,4 +66,10 @@ class User extends Authenticatable implements JWTSubject, FilamentUser
     {
         return $this->role == static::ADMIN;
     }
+
+    public function clusters(): HasMany
+    {
+        return $this->hasMany(Cluster::class, 'user_id', 'id');
+    }
+
 }
