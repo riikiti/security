@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Requests\ClusterRequest;
 use App\Models\Cluster;
 use Closure;
 use Illuminate\Http\Request;

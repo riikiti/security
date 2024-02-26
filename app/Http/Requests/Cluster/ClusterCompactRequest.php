@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Cluster;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ClusterRequest extends FormRequest
+class ClusterCompactRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,10 +23,6 @@ class ClusterRequest extends FormRequest
     {
         return [
             'user_id' => 'required|exists:users,id|integer',
-            'cluster_id' => 'required|exists:clusters,id|integer',
-            'password' => 'string|required',
-            'name' => 'nullable|string',
-            'new_password' => 'nullable|string'
         ];
     }
 }

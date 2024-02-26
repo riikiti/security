@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ClusterCompactRequest;
-use App\Http\Requests\ClusterRequest;
-use App\Http\Resources\ClusterRecordsResource;
-use App\Http\Resources\ClusterResource;
+use App\Http\Requests\Cluster\ClusterCompactRequest;
+use App\Http\Requests\Cluster\ClusterRequest;
+use App\Http\Resources\Cluster\ClusterRecordsResource;
+use App\Http\Resources\Cluster\ClusterResource;
 use App\Models\Cluster;
 use Illuminate\Http\JsonResponse;
 
