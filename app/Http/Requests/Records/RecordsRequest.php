@@ -22,12 +22,10 @@ class RecordsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id|integer',
             'record_id' => 'required|exists:records,id|integer',
             'email' => 'nullable|string|email',
             'login' => 'nullable|string',
             'password' => 'nullable|string',
-
         ];
     }
 }

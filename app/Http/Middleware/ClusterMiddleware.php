@@ -21,7 +21,7 @@ class ClusterMiddleware
         if ($validated_data['password'] != $cluster->password) {
             return response()->json([
                 'status' => 403,
-                'message' => 'forbidden'
+                'message' => 'forbidden password'
             ], 404);
         }
         app()->instance('cluster', $cluster);

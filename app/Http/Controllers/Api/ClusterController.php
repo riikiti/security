@@ -27,7 +27,7 @@ class ClusterController extends Controller
         return response()->json(['status' => 'success', 'data' => ClusterResource::collection($clusters)]);
     }
 
-    public function show(ClusterRequest $request): JsonResponse
+    public function show(): JsonResponse
     {
         $this->cluster = resolve('cluster');
         return response()->json(['status' => 'success', 'data' => ClusterRecordsResource::make($this->cluster)]);
@@ -41,7 +41,7 @@ class ClusterController extends Controller
         return response()->json(['status' => 'success', 'data' => ClusterRecordsResource::make($this->cluster)]);
     }
 
-    public function delete(ClusterRequest $request): JsonResponse
+    public function delete(): JsonResponse
     {
         $this->cluster = resolve('cluster');
         $this->cluster->delete();

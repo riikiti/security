@@ -22,7 +22,6 @@ class ClusterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id|integer',
             'cluster_id' => 'required|exists:clusters,id|integer',
             'password' => 'string|required',
             'name' => 'nullable|string',
