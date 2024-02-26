@@ -17,7 +17,8 @@ class ClusterResource extends JsonResource
         return [
             'id'=>$this->id,
             'name'=>$this->name,
-            'created'=>$this->created
+            'created'=>$this->created,
+            'password'=>$this->password
         ];
     }
 }

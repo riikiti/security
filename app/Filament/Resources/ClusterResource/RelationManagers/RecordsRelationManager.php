@@ -8,7 +8,7 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-
+use Rawilk\FilamentPasswordInput\Password;
 class RecordsRelationManager extends RelationManager
 {
     protected static string $relationship = 'records';
@@ -23,11 +23,12 @@ class RecordsRelationManager extends RelationManager
                         Forms\Components\TextInput::make('email')
                             ->label('Почта')
                             ->required()
+                            ->email()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('login')
                             ->label('Логин')
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('password')
+                        Password::make('password')
                             ->label('Пароль')
                             ->required()
                             ->maxLength(255),

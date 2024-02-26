@@ -13,6 +13,14 @@ use Illuminate\Http\JsonResponse;
 
 class ClusterController extends Controller
 {
+    private array $data;
+    private Cluster $cluster;
+
+    public function __construct()
+    {
+        $this->data = [];
+    }
+
     public function index(ClusterCompactRequest $request): JsonResponse
     {
         $clusters = Cluster::query()->where('user_id', $request->user_id)->get();
@@ -21,6 +29,33 @@ class ClusterController extends Controller
 
     public function show(ClusterRequest $request): JsonResponse
     {
-        return response()->json(['status' => 'success', 'data' => ClusterRecordsResource::make(resolve('cluster'))]);
+        $this->cluster = resolve('cluster');
+        return response()->json(['status' => 'success', 'data' => ClusterRecordsResource::make($this->cluster)]);
+    }
+
+    public function update(ClusterRequest $request): JsonResponse
+    {
+        $this->cluster = resolve('cluster');
+        $this->setClusterParameters($this->data, $request);
+        $this->cluster->fill($this->data)->save();
+        return response()->json(['status' => 'success', 'data' => ClusterRecordsResource::make($this->cluster)]);
+    }
+
+    public function delete(ClusterRequest $request): JsonResponse
+    {
+        $this->cluster = resolve('cluster');
+        $this->cluster->delete();
+        return response()->json(['status' => 'success', 'data' => []]);
+    }
+
+    public function setClusterParameters(&$data, $request): array
+    {
+        if (isset($request->new_password)) {
+            $data['password'] = $request->new_password;
+        }
+        $data['user_id'] = $request->user_id;
+        $data['cluster_id'] = $request->cluster_id;
+        $data['name'] = $request->name;
+        return $data;
     }
 }
