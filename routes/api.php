@@ -30,18 +30,21 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::post('register', [RegisterController::class, 'register'])->withoutMiddleware('api');
 });
 
-Route::group(['middleware' => 'cluster-password', 'prefix' => 'clusters'], function () {
-    Route::get('/', [ClusterController::class, 'index'])->withoutMiddleware('cluster-password');
-    Route::get('show', [ClusterController::class, 'show']);
-    Route::post('update', [ClusterController::class, 'update']);
-    Route::post('delete', [ClusterController::class, 'delete']);
+Route::middleware(['check-token'])->group(function () {
+    Route::group(['middleware' => 'cluster-password', 'prefix' => 'clusters'], function () {
+        Route::get('/', [ClusterController::class, 'index'])->withoutMiddleware('cluster-password');
+        Route::get('show', [ClusterController::class, 'show']);
+        Route::post('update', [ClusterController::class, 'update']);
+        Route::post('delete', [ClusterController::class, 'delete']);
+    });
+
+    Route::group(['prefix' => 'records'], function () {
+        Route::get('/', [RecordsController::class, 'index']);
+        Route::get('show', [RecordsController::class, 'show']);
+        Route::post('update', [RecordsController::class, 'update']);
+        Route::post('delete', [RecordsController::class, 'delete']);
+    });
 });
 
-Route::group(['prefix' => 'records'], function () {
-    Route::get('/', [RecordsController::class, 'index']);
-    Route::get('show', [RecordsController::class, 'show']);
-    Route::post('update', [RecordsController::class, 'update']);
-    Route::post('delete', [RecordsController::class, 'delete']);
-});
 
 

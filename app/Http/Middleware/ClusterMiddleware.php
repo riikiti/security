@@ -19,11 +19,10 @@ class ClusterMiddleware
 
         $cluster = Cluster::query()->where('user_id', $validated_data['user_id'])->where('id', $validated_data['cluster_id'])->first();
         if ($validated_data['password'] != $cluster->password) {
-            $data = [
+            return response()->json([
                 'status' => 403,
                 'message' => 'forbidden'
-            ];
-            return response()->json($data, 404);
+            ], 404);
         }
         app()->instance('cluster', $cluster);
         return $next($request);
