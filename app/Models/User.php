@@ -55,12 +55,14 @@ class User extends Authenticatable implements JWTSubject, FilamentUser
     ];
     public const USER = 'user';
     public const ADMIN = 'admin';
+    public const COMPANY = 'company';
 
 
     public function getCreatedAttribute(): string
     {
         return date('d.m.Y', strtotime($this->created_at));
     }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -80,7 +82,6 @@ class User extends Authenticatable implements JWTSubject, FilamentUser
     {
         return $this->hasMany(Cluster::class, 'user_id', 'id');
     }
-
 
     public function setAvatarAttribute($value): void
     {
