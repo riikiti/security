@@ -10,7 +10,7 @@ class Record extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cluster_id', 'email', 'password', 'login'];
+    protected $fillable = ['cluster_id', 'email', 'password', 'login','site'];
 
     public function cluster(): BelongsTo
     {

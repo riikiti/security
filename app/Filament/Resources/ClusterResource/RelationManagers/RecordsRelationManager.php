@@ -20,6 +20,11 @@ class RecordsRelationManager extends RelationManager
             ->schema([
                 Grid::make(1)
                     ->schema([
+                        Forms\Components\TextInput::make('site')
+                            ->label('Сайт')
+                            ->required()
+                            ->url()
+                            ->maxLength(255),
                         Forms\Components\TextInput::make('email')
                             ->label('Почта')
                             ->required()
@@ -42,6 +47,7 @@ class RecordsRelationManager extends RelationManager
             ->recordTitleAttribute('email')
             ->columns([
                 Tables\Columns\TextColumn::make('id')->label('id'),
+                Tables\Columns\TextColumn::make('site')->label('Сайт'),
                 Tables\Columns\TextColumn::make('email')->label('Почта'),
                 Tables\Columns\TextColumn::make('login')->label('Логин'),
                 Tables\Columns\TextColumn::make('password')->label('Пароль'),

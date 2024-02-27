@@ -25,7 +25,8 @@ class RecordsStoreRequest extends FormRequest
             'email' => 'nullable|string|email',
             'login' => 'nullable|string',
             'password' => 'nullable|string',
-            'cluster_id'=>'required|integer'
+            'cluster_id' => 'required|integer',
+            'site' => 'nullable|string'
         ];
     }
 }

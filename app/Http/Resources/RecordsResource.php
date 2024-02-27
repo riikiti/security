@@ -15,10 +15,11 @@ class RecordsResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'=>$this->id,
-            'email'=>$this->email,
-            'login'=>$this->login,
-            'password'=>$this->password,
+            'id' => $this->id,
+            'email' => $this->email,
+            'login' => $this->login,
+            'password' => $this->password,
+            'site' => $this->site,
         ];
     }
 }
