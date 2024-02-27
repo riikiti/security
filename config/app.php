@@ -170,6 +170,7 @@ return [
         App\Providers\Filament\AdminPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        Teckwei1993\Otp\OtpServiceProvider::class
     ])->toArray(),
 
     /*
@@ -185,6 +186,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'Otp' => Teckwei1993\Otp\OtpFacade::class
     ])->toArray(),
 
 ];
