@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\ClusterController;
 use App\Http\Controllers\Api\PasswordGenController;
 use App\Http\Controllers\Api\RecordsController;
+use App\Http\Controllers\Api\UpdateUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -52,5 +53,6 @@ Route::middleware(['check-token'])->group(function () {
 });
 
 Route::get('code', [PasswordGenController::class, 'index']);
+Route::post('update-user',[UpdateUserController::class,'update']);
 
 

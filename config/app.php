@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\Helpers\HelpersServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
@@ -96,7 +97,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'ru',
 
     /*
     |--------------------------------------------------------------------------
@@ -170,7 +171,10 @@ return [
         App\Providers\Filament\AdminPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
-        Teckwei1993\Otp\OtpServiceProvider::class
+        Teckwei1993\Otp\OtpServiceProvider::class,
+        HelpersServiceProvider::class
+
+
     ])->toArray(),
 
     /*

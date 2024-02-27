@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Services\Helpers\Images\ImageHelperService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Filament\Panel;
 use Filament\Models\Contracts\FilamentUser;
@@ -17,16 +18,20 @@ class User extends Authenticatable implements JWTSubject, FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    private ImageHelperService $imageHelper;
+
+    public function __construct()
+    {
+        $this->imageHelper = app(ImageHelperService::class);
+        $this->imageHelper->setSavingPath('avatars');
+    }
+
     protected $fillable = [
         'email',
         'name',
         'password',
-        'role'
+        'role',
+        'avatar'
     ];
 
     /**
@@ -52,6 +57,10 @@ class User extends Authenticatable implements JWTSubject, FilamentUser
     public const ADMIN = 'admin';
 
 
+    public function getCreatedAttribute(): string
+    {
+        return date('d.m.Y', strtotime($this->created_at));
+    }
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -70,6 +79,17 @@ class User extends Authenticatable implements JWTSubject, FilamentUser
     public function clusters(): HasMany
     {
         return $this->hasMany(Cluster::class, 'user_id', 'id');
+    }
+
+
+    public function setAvatarAttribute($value): void
+    {
+        $this->attributes['avatar'] = $this->imageHelper->handleImageUpload(
+            value: $value,
+            model: $this,
+            attribute: 'avatar'
+        );
+        $this->save();
     }
 
 }
