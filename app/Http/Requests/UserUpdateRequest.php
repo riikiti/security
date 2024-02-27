@@ -22,7 +22,7 @@ class UserUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required',
+            'user_id' => 'required|exists:users,id',
             'name' => 'string|nullable',
             'avatar' => 'nullable',
             'new_password' => 'nullable|string',

@@ -50,9 +50,15 @@ Route::middleware(['check-token'])->group(function () {
         Route::post('store', [RecordsController::class, 'store']);
         Route::post('delete', [RecordsController::class, 'delete']);
     });
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('/', [UpdateUserController::class, 'index']);
+        Route::get('show', [UpdateUserController::class, 'show']);
+        Route::post('update', [UpdateUserController::class, 'update']);
+        Route::post('delete', [UpdateUserController::class, 'delete']);
+    });
 });
 
 Route::get('code', [PasswordGenController::class, 'index']);
-Route::post('update-user',[UpdateUserController::class,'update']);
+
 
 
