@@ -26,7 +26,7 @@ class CodeGeneratorRequest extends FormRequest
             'length' => 'integer|nullable',
             'format' => 'string|nullable',
             'expires' => 'integer|nullable',
-            'repeated' => 'boolean|nullable'
+            'repeated' => 'nullable'
         ];
     }
 }
