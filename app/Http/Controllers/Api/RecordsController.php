@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Records\RecordsCompactRequest;
 use App\Http\Requests\Records\RecordsRequest;
+use App\Http\Requests\Records\RecordsStoreRequest;
 use App\Http\Resources\RecordsResource;
 use App\Models\Record;
 use Illuminate\Http\JsonResponse;
@@ -23,6 +24,12 @@ class RecordsController extends Controller
     public function show(RecordsRequest $request): JsonResponse
     {
         $this->record = Record::find($request->record_id);
+        return response()->json(['status' => 'success', 'data' => RecordsResource::make($this->record)]);
+    }
+
+    public function store(RecordsStoreRequest $request): JsonResponse
+    {
+        $this->record = Record::create($request->validated());
         return response()->json(['status' => 'success', 'data' => RecordsResource::make($this->record)]);
     }
 

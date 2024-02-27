@@ -37,6 +37,7 @@ Route::middleware(['check-token'])->group(function () {
         Route::get('/', [ClusterController::class, 'index'])->withoutMiddleware('cluster-password');
         Route::get('show', [ClusterController::class, 'show']);
         Route::post('update', [ClusterController::class, 'update']);
+        Route::post('store', [ClusterController::class, 'store'])->withoutMiddleware('cluster-password');
         Route::post('delete', [ClusterController::class, 'delete']);
     });
 
@@ -44,6 +45,7 @@ Route::middleware(['check-token'])->group(function () {
         Route::get('/', [RecordsController::class, 'index']);
         Route::get('show', [RecordsController::class, 'show']);
         Route::post('update', [RecordsController::class, 'update']);
+        Route::post('store', [RecordsController::class, 'store']);
         Route::post('delete', [RecordsController::class, 'delete']);
     });
 });

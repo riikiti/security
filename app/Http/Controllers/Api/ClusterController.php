@@ -5,9 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cluster\ClusterCompactRequest;
 use App\Http\Requests\Cluster\ClusterRequest;
+use App\Http\Requests\Cluster\ClusterStoreRequest;
+use App\Http\Requests\Records\RecordsStoreRequest;
 use App\Http\Resources\Cluster\ClusterRecordsResource;
 use App\Http\Resources\Cluster\ClusterResource;
+use App\Http\Resources\RecordsResource;
 use App\Models\Cluster;
+use App\Models\Record;
 use Illuminate\Http\JsonResponse;
 
 
@@ -39,6 +43,12 @@ class ClusterController extends Controller
         $this->setClusterParameters($this->data, $request);
         $this->cluster->fill($this->data)->save();
         return response()->json(['status' => 'success', 'data' => ClusterRecordsResource::make($this->cluster)]);
+    }
+
+    public function store(ClusterStoreRequest $request): JsonResponse
+    {
+        $this->cluster = Cluster::create($request->validated());
+        return response()->json(['status' => 'success', 'data' => ClusterResource::make($this->cluster)]);
     }
 
     public function delete(): JsonResponse
