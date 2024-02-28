@@ -18,7 +18,6 @@ class ClusterResource extends JsonResource
             'id'=>$this->id,
             'name'=>$this->name,
             'created'=>$this->created,
-            'password'=>$this->password
         ];
     }
 }

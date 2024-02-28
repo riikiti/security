@@ -19,7 +19,6 @@ class ClusterRecordsResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'created' => $this->created,
-            'password'=>$this->password,
             'records' => RecordsResource::collection($this->records),
         ];
     }
