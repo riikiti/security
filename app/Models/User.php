@@ -31,7 +31,8 @@ class User extends Authenticatable implements JWTSubject, FilamentUser
         'name',
         'password',
         'role',
-        'avatar'
+        'avatar',
+        'company_id'
     ];
 
     /**
@@ -81,6 +82,11 @@ class User extends Authenticatable implements JWTSubject, FilamentUser
     public function clusters(): HasMany
     {
         return $this->hasMany(Cluster::class, 'user_id', 'id');
+    }
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
     }
 
     public function setAvatarAttribute($value): void

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\ClusterController;
+use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\PasswordGenController;
 use App\Http\Controllers\Api\RecordsController;
 use App\Http\Controllers\Api\UpdateUserController;
@@ -59,6 +60,8 @@ Route::middleware(['check-token'])->group(function () {
 });
 
 Route::get('code', [PasswordGenController::class, 'index']);
+Route::post('company', [CompanyController::class, 'store']);
+
 
 
 
