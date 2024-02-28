@@ -22,7 +22,7 @@ class ClusterMiddleware
             return response()->json([
                 'status' => 403,
                 'message' => 'forbidden password'
-            ], 404);
+            ], 403);
         }
         app()->instance('cluster', $cluster);
         return $next($request);
