@@ -9,6 +9,7 @@ use Filament\Panel;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
@@ -87,6 +88,11 @@ class User extends Authenticatable implements JWTSubject, FilamentUser
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function owner(): HasOne
+    {
+        return $this->hasOne(Company::class, 'owner_id', 'id');
     }
 
     public function setAvatarAttribute($value): void

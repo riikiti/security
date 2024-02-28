@@ -6,7 +6,7 @@ use App\Http\Controllers\Api\ClusterController;
 use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\PasswordGenController;
 use App\Http\Controllers\Api\RecordsController;
-use App\Http\Controllers\Api\UpdateUserController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -52,15 +52,22 @@ Route::middleware(['check-token'])->group(function () {
         Route::post('delete', [RecordsController::class, 'delete']);
     });
     Route::group(['prefix' => 'users'], function () {
-        Route::get('/', [UpdateUserController::class, 'index']);
-        Route::get('show', [UpdateUserController::class, 'show']);
-        Route::post('update', [UpdateUserController::class, 'update']);
-        Route::post('delete', [UpdateUserController::class, 'delete']);
+        Route::get('/', [UserController::class, 'index']);
+        Route::get('show', [UserController::class, 'show']);
+        Route::post('update', [UserController::class, 'update']);
+        Route::post('delete', [UserController::class, 'delete']);
+    });
+
+    Route::group(['prefix' => 'company'], function () {
+        Route::post('store', [CompanyController::class, 'store']);
+        Route::post('user', [CompanyController::class, 'addUser']);
+        Route::get('show', [CompanyController::class, 'show']);
+        Route::get('users', [CompanyController::class, 'showUsers']);
     });
 });
 
 Route::get('code', [PasswordGenController::class, 'index']);
-Route::post('company', [CompanyController::class, 'store']);
+
 
 
 

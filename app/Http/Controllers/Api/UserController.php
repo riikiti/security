@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use PhpParser\Error;
 
-class UpdateUserController extends Controller
+class UserController extends Controller
 {
     public function index()
     {

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Services\Helpers\Images\ImageHelperService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Company extends Model
@@ -21,11 +22,16 @@ class Company extends Model
         $this->imageHelper->setSavingPath('logo');
     }
 
-    protected $fillable = ['name', 'logo', 'description'];
+    protected $fillable = ['name', 'logo', 'description', 'owner_id'];
 
     public function users(): HasMany
     {
         return $this->hasMany(User::class, 'company_id', 'id');
+    }
+
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function setLogoAttribute($value): void
