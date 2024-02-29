@@ -12,6 +12,7 @@ use App\Http\Resources\Cluster\ClusterResource;
 use App\Http\Resources\RecordsResource;
 use App\Models\Cluster;
 use App\Models\Record;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 
 
@@ -19,15 +20,17 @@ class ClusterController extends Controller
 {
     private array $data;
     private Cluster $cluster;
+    private User $user;
 
     public function __construct()
     {
         $this->data = [];
+        $this->user = auth()->user() ?? null;
     }
 
-    public function index(ClusterCompactRequest $request): JsonResponse
+    public function index(): JsonResponse
     {
-        $clusters = Cluster::query()->where('user_id', $request->user_id)->get();
+        $clusters = Cluster::query()->where('user_id', $this->user->id)->get();
         return response()->json(['status' => 'success', 'data' => ClusterResource::collection($clusters)]);
     }
 
@@ -63,7 +66,7 @@ class ClusterController extends Controller
         if (isset($request->new_password)) {
             $data['password'] = $request->new_password;
         }
-        $data['user_id'] = $request->user_id;
+        $data['user_id'] =  $this->user->id;
         $data['cluster_id'] = $request->cluster_id;
         $data['name'] = $request->name;
         return $data;

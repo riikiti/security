@@ -22,7 +22,7 @@ class ClusterStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id|integer',
+            //'user_id' => 'required|exists:users,id|integer',
             'password' => 'required|string',
             'name' => 'required|string',
         ];
