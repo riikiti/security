@@ -9,21 +9,24 @@ class EncryptionHelper implements EncryptionHelperService
 {
 
     private string $cipher;
+    private string $iv;
+    private string $password;
 
     public function __construct()
     {
-        $this->cipher = config('cipher.type');
+        $this->cipher = hash('sha256', config('cipher.type'));
+        $this->iv = substr(hash('sha256', config('cipher.iv')), 0, 16);
     }
 
     public function encrypt(string $value, string $password): ?string
     {
-        $ivlen = openssl_cipher_iv_length($this->cipher);
-        $iv = openssl_random_pseudo_bytes($ivlen);
-        return openssl_encrypt($value, $this->cipher, $password, $options = 0, $iv, $tag);
+        $this->password = hash('sha256', $password);
+        return base64_encode(openssl_encrypt($value, $this->cipher, $this->password, 0, $this->iv));
     }
 
     public function decrypt(string $value, string $password): ?string
     {
-        return openssl_decrypt($value, $this->cipher, $password, $options = 0, $iv, $tag);
+        $this->password = hash('sha256', $password);
+        return openssl_decrypt(base64_decode($value), $this->cipher, $this->password, 0, $this->iv);
     }
 }
