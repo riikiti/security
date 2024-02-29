@@ -24,7 +24,7 @@ class CompanyStoreRequest extends FormRequest
         return [
             'name' => 'string|required',
             'description' => 'string|required',
-            'owner_id' => 'integer|required',
+            //'owner_id' => 'integer|required',
             'logo' => 'nullable',
         ];
     }

@@ -66,7 +66,7 @@ class ClusterController extends Controller
         if (isset($request->new_password)) {
             $data['password'] = $request->new_password;
         }
-        $data['user_id'] =  $this->user->id;
+        $data['user_id'] = $this->user->id;
         $data['cluster_id'] = $request->cluster_id;
         $data['name'] = $request->name;
         return $data;
