@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Enum\CompanyRoleEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
+use Livewire\Attributes\Rule;
 
 class UserCompanyRequest extends FormRequest
 {
@@ -24,6 +27,8 @@ class UserCompanyRequest extends FormRequest
         return [
             'user_id' => 'integer|required|exists:users,id',
             'company_id' => 'integer|required|exists:companies,id',
+            'company_role' => 'nullable|exists:companies,id',
+
         ];
     }
 }

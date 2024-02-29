@@ -22,6 +22,7 @@ class UserCompactResorce extends JsonResource
             'created_at' => $this->created,
             'role' => $this->role,
             'company' => CompanyCompactResource::make($this->company),
+            'company_role'=>$this->company_role
         ];
     }
 }

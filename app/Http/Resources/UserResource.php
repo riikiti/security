@@ -25,6 +25,7 @@ class UserResource extends JsonResource
             'created_at' => $this->created,
             'role' => $this->role,
             'company' => CompanyResource::make($this->company),
+            'company_role'=>$this->company_role,
             'owner' => CompanyCompactResource::make($this->owner)
         ];
     }
