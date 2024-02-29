@@ -15,12 +15,19 @@ class CheckTokenMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-       if (!request()->bearerToken()) {
-           return response()->json([
-               'status' => 403,
-               'message' => 'forbidden token'
-           ]);
-       }
-        return $next($request);
+        switch (true) {
+            case !request()->bearerToken():
+                return response()->json([
+                    'status' => 403,
+                    'message' => 'token dont enter'
+                ]);
+            case auth()->user() == null:
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'forbidden token'
+                ]);
+            default :
+                return $next($request);
+        }
     }
 }

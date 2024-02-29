@@ -25,7 +25,11 @@ class ClusterController extends Controller
     public function __construct()
     {
         $this->data = [];
-        $this->user = auth()->user() ?? null;
+        $this->middleware('check-token');
+        $this->middleware(function ($request, $next) {
+            $this->user = auth()->user();
+            return $next($request);
+        });
     }
 
     public function index(): JsonResponse
