@@ -23,6 +23,9 @@ class CompanyRequest extends FormRequest
     {
         return [
             'company_id' => 'integer|required|exists:companies,id',
+            'name' => 'nullable|string',
+            'description' => 'nullable|string',
+            'logo' => 'nullable'
         ];
     }
 }

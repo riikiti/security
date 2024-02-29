@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AddUserToCompanyRequest;
+use App\Http\Requests\UserCompanyRequest;
 use App\Http\Requests\CompanyRequest;
 use App\Http\Requests\CompanyStoreRequest;
 use App\Http\Resources\CompanyResource;
@@ -18,26 +18,52 @@ class CompanyController extends Controller
 {
     public function store(CompanyStoreRequest $request)
     {
-        return CompanyResource::make(Company::create($request->validated()));
+        return response()->json(['status' => 'success', 'data' => CompanyResource::make(Company::create($request->validated()))]);
     }
 
-    public function addUser(AddUserToCompanyRequest $request)
+    public function addUser(UserCompanyRequest $request)
     {
         $new_user_info = $request->validated();
         $user = User::find($new_user_info['user_id']);
         $user->fill($new_user_info)->save();
-        return UserCompactResorce::make($user);
+        return response()->json(['status' => 'success', 'data' => UserCompactResorce::make($user)]);
     }
 
     public function show(CompanyRequest $request)
     {
         $company = Company::find($request->company_id);
-        return CompanyResource::make($company);
+        return response()->json(['status' => 'success', 'data' => CompanyResource::make($company)]);
     }
 
     public function showUsers(CompanyRequest $request)
     {
         $company = Company::find($request->company_id);
-        return CompanyUserstResorce::make($company);
+        return response()->json(['status' => 'success', 'data' => CompanyUserstResorce::make($company)]);
+    }
+
+    public function update(CompanyRequest $request)
+    {
+        $new_company_info = $request->validated();
+        $company = Company::find($new_company_info['company_id']);
+        $company->fill($new_company_info)->save();
+        return response()->json(['status' => 'success', 'data' => CompanyResource::make($company)]);
+    }
+
+    public function deleteUser(UserCompanyRequest $request)
+    {
+        $company = Company::find($request->company_id);
+        $user = User::find($request->user_id);
+        if ($user->company_id == $company->id) {
+            $user->fill(['company_id' => null])->save();
+            return response()->json(['status' => 'error', 'data' => UserCompactResorce::make($user)]);
+        }
+        return response()->json(['status' => 'error', 'message' => 'user not in company']);
+    }
+
+    public function delete(CompanyRequest $request)
+    {
+        $company = Company::find($request->company_id);
+        $company->delete();
+        return response()->json(['status' => 'success', 'data' => []]);
     }
 }

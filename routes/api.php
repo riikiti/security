@@ -63,6 +63,9 @@ Route::middleware(['check-token'])->group(function () {
         Route::post('user', [CompanyController::class, 'addUser']);
         Route::get('show', [CompanyController::class, 'show']);
         Route::get('users', [CompanyController::class, 'showUsers']);
+        Route::post('update', [CompanyController::class, 'update']);
+        Route::post('delete-user', [CompanyController::class, 'deleteUser']);
+        Route::post('delete', [CompanyController::class, 'delete']);
     });
 });
 
