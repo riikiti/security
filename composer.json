@@ -16,7 +16,8 @@
         "laravel/tinker": "^2.8",
         "rawilk/filament-password-input": "^2.0",
         "teckwei1993/laravel-otp": "^1.0",
-        "tymon/jwt-auth": "^2.0"
+        "tymon/jwt-auth": "^2.0",
+        "ext-openssl": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

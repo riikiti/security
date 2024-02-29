@@ -2,6 +2,8 @@
 
 namespace App\Services\Helpers;
 
+use App\Services\Helpers\Encryption\EncryptionHelper;
+use App\Services\Helpers\Encryption\EncryptionHelperService;
 use App\Services\Helpers\Files\FilesHelper;
 use App\Services\Helpers\Files\FilesHelperService;
 use App\Services\Helpers\Images\ImageHelper;
@@ -19,5 +21,6 @@ class HelpersServiceProvider extends ServiceProvider
     {
         $this->app->bind(ImageHelperService::class, ImageHelper::class);
         $this->app->bind(FilesHelperService::class, FilesHelper::class);
+        $this->app->bind(EncryptionHelperService::class, EncryptionHelper::class);
     }
 }
