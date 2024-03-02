@@ -13,9 +13,6 @@ class Cluster extends Model
 
     protected $fillable = ['user_id', 'name', 'password'];
 
-    protected $casts = [
-        'password' => 'hashed',
-    ];
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

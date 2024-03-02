@@ -14,6 +14,9 @@ use App\Models\Cluster;
 use App\Models\Record;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use App\Services\Helpers\Encryption\EncryptionHelperService;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 
 
 class ClusterController extends Controller
@@ -21,9 +24,11 @@ class ClusterController extends Controller
     private array $data;
     private Cluster $cluster;
     private User $user;
+    private EncryptionHelperService $encryptHelper;
 
     public function __construct()
     {
+        $this->encryptHelper = app(EncryptionHelperService::class);
         $this->data = [];
         $this->middleware('check-token');
         $this->middleware(function ($request, $next) {
@@ -35,26 +40,34 @@ class ClusterController extends Controller
     public function index(): JsonResponse
     {
         $clusters = Cluster::query()->where('user_id', $this->user->id)->get();
+        foreach ($clusters as $cluster) {
+            $cluster->name = $this->encryptHelper->decrypt($cluster->name, $cluster->password);
+        }
         return response()->json(['status' => 'success', 'data' => ClusterResource::collection($clusters)]);
     }
 
     public function show(): JsonResponse
     {
         $this->cluster = resolve('cluster');
+        $this->cluster->name = $this->encryptHelper->decrypt($this->cluster->name, $this->cluster->password);
         return response()->json(['status' => 'success', 'data' => ClusterRecordsResource::make($this->cluster)]);
     }
 
     public function update(ClusterRequest $request): JsonResponse
     {
         $this->cluster = resolve('cluster');
-        $this->setClusterParameters($this->data, $request);
+        $this->setClusterParameters($this->data, $request, $this->cluster->password);
         $this->cluster->fill($this->data)->save();
         return response()->json(['status' => 'success', 'data' => ClusterRecordsResource::make($this->cluster)]);
     }
 
     public function store(ClusterStoreRequest $request): JsonResponse
     {
-        $this->cluster = Cluster::create($request->validated());
+        $this->data = $request->validated();
+        $this->data['password'] = Hash::make($this->data['password']);
+        $this->data['name'] = $this->encryptHelper->encrypt($this->data['name'], $this->data['password']);
+        $this->cluster = Cluster::create($this->data);
+        $this->cluster->fill(['user_id' => $this->user->id])->save();
         return response()->json(['status' => 'success', 'data' => ClusterResource::make($this->cluster)]);
     }
 
@@ -65,14 +78,15 @@ class ClusterController extends Controller
         return response()->json(['status' => 'success', 'data' => []]);
     }
 
-    public function setClusterParameters(&$data, $request): array
+    public function setClusterParameters(&$data, $request, $password): array
     {
         if (isset($request->new_password)) {
-            $data['password'] = $request->new_password;
+            $data['password'] = Hash::make($request->new_password);
+            $data['name'] = $this->encryptHelper->encrypt($request->name, $data['password']);
         }
         $data['user_id'] = $this->user->id;
         $data['cluster_id'] = $request->cluster_id;
-        $data['name'] = $request->name;
+        $data['name'] = $this->encryptHelper->encrypt($request->name, $password);
         return $data;
     }
 }
