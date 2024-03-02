@@ -84,8 +84,6 @@ class ClusterController extends Controller
             $data['password'] = Hash::make($request->new_password);
             $data['name'] = $this->encryptHelper->encrypt($request->name, $data['password']);
         }
-        $data['user_id'] = $this->user->id;
-        $data['cluster_id'] = $request->cluster_id;
         $data['name'] = $this->encryptHelper->encrypt($request->name, $password);
         return $data;
     }
