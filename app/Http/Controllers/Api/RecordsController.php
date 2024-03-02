@@ -14,9 +14,11 @@ use Illuminate\Http\Request;
 class RecordsController extends Controller
 {
     private Record $record;
+    private string $password;
 
     public function index(RecordsCompactRequest $request): JsonResponse
     {
+        //todo Написать фор ич для каждого кластера, брать у него пассворд и дешифровать все данные
         $records = Record::query()->where('cluster_id', $request->cluster_id)->get();
         return response()->json(['status' => 'success', 'data' => RecordsResource::collection($records)]);
     }
@@ -24,11 +26,13 @@ class RecordsController extends Controller
     public function show(RecordsRequest $request): JsonResponse
     {
         $this->record = Record::find($request->record_id);
+        $this->password = $this->record->cluster->password;
         return response()->json(['status' => 'success', 'data' => RecordsResource::make($this->record)]);
     }
 
     public function store(RecordsStoreRequest $request): JsonResponse
     {
+        //вынести все данные в функцию чтоб данные сразу заносили зашифроваными
         $this->record = Record::create($request->validated());
         return response()->json(['status' => 'success', 'data' => RecordsResource::make($this->record)]);
     }
