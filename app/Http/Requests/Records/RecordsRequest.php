@@ -25,6 +25,7 @@ class RecordsRequest extends FormRequest
             'record_id' => 'required|exists:records,id|integer',
             'email' => 'nullable|string|email',
             'login' => 'nullable|string',
+            'site' => 'nullable|string',
             'password' => 'nullable|string',
         ];
     }

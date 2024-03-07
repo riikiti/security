@@ -7,7 +7,9 @@ use App\Http\Requests\Records\RecordsCompactRequest;
 use App\Http\Requests\Records\RecordsRequest;
 use App\Http\Requests\Records\RecordsStoreRequest;
 use App\Http\Resources\RecordsResource;
+use App\Models\Cluster;
 use App\Models\Record;
+use App\Services\Helpers\Encryption\EncryptionHelperService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -15,32 +17,66 @@ class RecordsController extends Controller
 {
     private Record $record;
     private string $password;
+    private array $data;
+
+    private EncryptionHelperService $encryptHelper;
+
+    public function __construct()
+    {
+        $this->encryptHelper = app(EncryptionHelperService::class);
+    }
 
     public function index(RecordsCompactRequest $request): JsonResponse
     {
-        //todo Написать фор ич для каждого кластера, брать у него пассворд и дешифровать все данные
+        $encryptedRecords = [];
+        $cluster = Cluster::find($request->cluster_id);
         $records = Record::query()->where('cluster_id', $request->cluster_id)->get();
-        return response()->json(['status' => 'success', 'data' => RecordsResource::collection($records)]);
+        foreach ($records as $record) {
+            $decryptedRecord['id'] = $record->id;
+            $decryptedRecord['email'] = isset($record->email) ? $this->encryptHelper->decrypt($record->email, $cluster->password) : null;
+            $decryptedRecord['site'] = isset($record->site) ? $this->encryptHelper->decrypt($record->site, $cluster->password) : null;
+            $decryptedRecord['login'] = isset($record->login) ? $this->encryptHelper->decrypt($record->login, $cluster->password) : null;
+            $decryptedRecord['password'] = isset($record->password) ? $this->encryptHelper->decrypt($record->password, $cluster->password) : null;
+            $encryptedRecords[] = $decryptedRecord;
+        }
+        return response()->json(['status' => 'success', 'data' => $encryptedRecords]);
     }
 
     public function show(RecordsRequest $request): JsonResponse
     {
         $this->record = Record::find($request->record_id);
         $this->password = $this->record->cluster->password;
-        return response()->json(['status' => 'success', 'data' => RecordsResource::make($this->record)]);
+        $this->data['email'] = isset($this->record->email) ? $this->encryptHelper->decrypt($this->record->email, $this->password) : null;
+        $this->data['site'] = isset($this->record->site) ? $this->encryptHelper->decrypt($this->record->site, $this->password) : null;
+        $this->data['login'] = isset($this->record->login) ? $this->encryptHelper->decrypt($this->record->login, $this->password) : null;
+        $this->data['password'] = isset($this->record->password) ? $this->encryptHelper->decrypt($this->record->password, $this->password) : null;
+        $this->data['id'] = $this->record->id;
+        return response()->json(['status' => 'success', 'data' => $this->data]);
     }
 
     public function store(RecordsStoreRequest $request): JsonResponse
     {
         //вынести все данные в функцию чтоб данные сразу заносили зашифроваными
-        $this->record = Record::create($request->validated());
+        $this->data = $request->validated();
+        $cluster = Cluster::find($this->data['cluster_id']);
+        $this->data['email'] = isset($this->data['email']) ? $this->encryptHelper->encrypt($this->data['email'], $cluster->password) : null;
+        $this->data['site'] = isset($this->data['site']) ? $this->encryptHelper->encrypt($this->data['site'], $cluster->password) : null;
+        $this->data['login'] = isset($this->data['login']) ? $this->encryptHelper->encrypt($this->data['login'], $cluster->password) : null;
+        $this->data['password'] = isset($this->data['password']) ? $this->encryptHelper->encrypt($this->data['password'], $cluster->password) : null;
+        $this->record = Record::create($this->data);
         return response()->json(['status' => 'success', 'data' => RecordsResource::make($this->record)]);
     }
 
     public function update(RecordsRequest $request): JsonResponse
     {
+        $this->data = $request->validated();
         $this->record = Record::find($request->record_id);
-        $this->record->fill($request->validated())->save();
+        $this->password = $this->record->cluster->password;
+        $this->data['email'] = isset($this->data['email']) ? $this->encryptHelper->encrypt($this->data['email'], $this->password) : null;
+        $this->data['site'] = isset($this->data['site']) ? $this->encryptHelper->encrypt($this->data['site'], $this->password) : null;
+        $this->data['login'] = isset($this->data['login']) ? $this->encryptHelper->encrypt($this->data['login'], $this->password) : null;
+        $this->data['password'] = isset($this->data['password']) ? $this->encryptHelper->encrypt($this->data['password'], $this->password) : null;
+        $this->record->fill($this->data)->save();
         return response()->json(['status' => 'success', 'data' => RecordsResource::make($this->record)]);
     }
 
