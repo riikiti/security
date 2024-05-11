@@ -20,6 +20,8 @@ class RecordsResource extends JsonResource
             'login' => $this->login,
             'password' => $this->password,
             'site' => $this->site,
+            'title' => $this->title,
+            'color' => $this->color,
         ];
     }
 }

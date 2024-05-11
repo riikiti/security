@@ -7,6 +7,7 @@ use App\Http\Requests\Cluster\ClusterCompactRequest;
 use App\Http\Requests\Cluster\ClusterRequest;
 use App\Http\Requests\Cluster\ClusterStoreRequest;
 use App\Http\Requests\Records\RecordsStoreRequest;
+use App\Http\Requests\Search\SearchRecordsRequest;
 use App\Http\Resources\Cluster\ClusterRecordsResource;
 use App\Http\Resources\Cluster\ClusterResource;
 use App\Http\Resources\RecordsResource;
@@ -86,5 +87,13 @@ class ClusterController extends Controller
         }
         $data['name'] = $this->encryptHelper->encrypt($request->name, $password);
         return $data;
+    }
+
+    public function search(SearchRecordsRequest $request): JsonResponse
+    {
+        $clusters = Cluster::query()
+            ->where('name', 'LIKE', '%' . $request->find . '%')
+            ->get();
+        return response()->json(['status' => 'success', 'data' => ClusterResource::collection($clusters)]);
     }
 }

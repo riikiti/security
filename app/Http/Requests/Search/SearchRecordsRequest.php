@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Records;
+namespace App\Http\Requests\Search;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RecordsStoreRequest extends FormRequest
+class SearchRecordsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,13 +22,8 @@ class RecordsStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'nullable|string|email',
-            'login' => 'nullable|string',
-            'password' => 'nullable|string',
+            'find' => 'required|string',
             'cluster_id' => 'required|integer',
-            'site' => 'nullable|string',
-            'color' => 'nullable|string',
-            'title' => 'nullable|string',
         ];
     }
 }

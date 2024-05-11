@@ -27,6 +27,8 @@ class RecordsRequest extends FormRequest
             'login' => 'nullable|string',
             'site' => 'nullable|string',
             'password' => 'nullable|string',
+            'color' => 'nullable|string',
+            'title' => 'nullable|string',
         ];
     }
 }
