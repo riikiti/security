@@ -25,9 +25,9 @@ class UserCompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //'user_id' => 'integer|required|exists:users,id',
+            'user_id' => 'integer|required|exists:users,id',
             'company_id' => 'integer|required|exists:companies,id',
-            'company_role' => 'nullable|exists:companies,id',
+            'role_id' => 'nullable|integer',
 
         ];
     }
