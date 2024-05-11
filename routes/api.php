@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\CompanyClustersController;
 use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\PasswordGenController;
 use App\Http\Controllers\Api\RecordsController;
+use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -67,6 +68,14 @@ Route::middleware(['check-token'])->group(function () {
         Route::post('update', [CompanyController::class, 'update']);
         Route::post('delete-user', [CompanyController::class, 'deleteUser']);
         Route::post('delete', [CompanyController::class, 'delete']);
+    });
+
+    Route::group(['prefix' => 'role'], function () {
+        Route::post('/add-role', [RoleController::class, 'addRole']);
+        Route::get('/all-role', [RoleController::class, 'allRole']);
+        Route::post('/add-user-role', [RoleController::class, 'addUserRole']);
+        Route::get('/search-user-by-role', [RoleController::class, 'searchUsersByRole']);
+
     });
 });
 

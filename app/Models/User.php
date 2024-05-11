@@ -33,7 +33,9 @@ class User extends Authenticatable implements JWTSubject, FilamentUser
         'password',
         'role',
         'avatar',
-        'company_id'
+        'company_id',
+        'role_id',
+        'is_banned'
     ];
 
     /**
@@ -103,6 +105,11 @@ class User extends Authenticatable implements JWTSubject, FilamentUser
             attribute: 'avatar'
         );
         $this->save();
+    }
+
+    public function roles(): BelongsTo
+    {
+        return $this->belongsTo(CompanyRole::class,'role_id');
     }
 
 }
