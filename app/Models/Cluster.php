@@ -11,7 +11,7 @@ class Cluster extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'name', 'password'];
+    protected $fillable = ['user_id', 'name', 'password', 'company_id'];
 
     public function user(): BelongsTo
     {
@@ -31,5 +31,10 @@ class Cluster extends Model
     public function records(): HasMany
     {
         return $this->hasMany(Record::class, 'cluster_id', 'id');
+    }
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
     }
 }
