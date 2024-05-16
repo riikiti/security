@@ -37,7 +37,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
 //todo refactor routes to apiResource
 
-Route::middleware(['check-token'])->group(function () {
+Route::middleware(['check-token','is_banned'])->group(function () {
     Route::group(['middleware' => ['cluster-password'], 'prefix' => 'clusters'], function () {
         Route::get('/', [ClusterController::class, 'index'])->withoutMiddleware('cluster-password');
         Route::get('show', [ClusterController::class, 'show']);

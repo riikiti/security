@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\CheckTokenMiddleware;
 use App\Http\Middleware\ClusterMiddleware;
+use App\Http\Middleware\HasBannedMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -68,5 +69,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'cluster-password'=> ClusterMiddleware::class,
         'check-token'=> CheckTokenMiddleware::class,
+        'is_banned'=>HasBannedMiddleware::class,
     ];
 }
