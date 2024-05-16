@@ -30,6 +30,7 @@ class CompanyController extends Controller
 
     public function store(CompanyStoreRequest $request)
     {
+
         return response()->json(['status' => 'success', 'data' => CompanyResource::make(Company::create($request->validated()))]);
     }
 
