@@ -25,7 +25,7 @@ class ClusterStoreRequest extends FormRequest
             //'user_id' => 'required|exists:users,id|integer',
             'password' => 'required|string',
             'name' => 'required|string',
-            'company_id'=>'required|integer|exists:companies,id',
+            'company_id'=>'integer|exists:companies,id',
         ];
     }
 }
