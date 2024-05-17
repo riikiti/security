@@ -50,10 +50,10 @@ class ClusterController extends Controller
 
     public function update(ClusterRequest $request): JsonResponse
     {
-        $this->cluster = Cluster::query()->where('id',$request->cluster_id)->firstOrFail();
+        $cluster = Cluster::query()->where('id',$request->cluster_id)->first();
         $this->setClusterParameters($this->data, $request);
-        $this->cluster->fill($this->data)->save();
-        return response()->json(['status' => 'success', 'data' => ClusterRecordsResource::make($this->cluster)]);
+        $cluster->fill($this->data)->save();
+        return response()->json(['status' => 'success', 'data' => ClusterRecordsResource::make( $cluster)]);
     }
 
     public function store(ClusterStoreRequest $request): JsonResponse
@@ -75,6 +75,8 @@ class ClusterController extends Controller
     {
         if (isset($request->new_password)) {
             $data['password'] = Hash::make($request->new_password);
+            $data['name'] = $request->name;
+
         }
         return $data;
     }
