@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\ClusterController;
+use App\Http\Controllers\Api\CompanyClusterController;
 use App\Http\Controllers\Api\CompanyClustersController;
 use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\PasswordGenController;
@@ -37,11 +38,11 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
 //todo refactor routes to apiResource
 
-Route::middleware(['check-token','is_banned'])->group(function () {
+Route::middleware(['check-token', 'is_banned'])->group(function () {
     Route::group(['middleware' => ['cluster-password'], 'prefix' => 'clusters'], function () {
         Route::get('/', [ClusterController::class, 'index'])->withoutMiddleware('cluster-password');
         Route::get('show', [ClusterController::class, 'show']);
-        Route::post('update', [ClusterController::class, 'update']);
+        Route::post('update', [ClusterController::class, 'update'])->withoutMiddleware('cluster-password');
         Route::post('store', [ClusterController::class, 'store'])->withoutMiddleware('cluster-password');
         Route::post('delete', [ClusterController::class, 'delete']);
         Route::post('search', [ClusterController::class, 'search'])->withoutMiddleware('cluster-password');
@@ -77,12 +78,12 @@ Route::middleware(['check-token','is_banned'])->group(function () {
         Route::get('/all-role', [RoleController::class, 'allRole']);
         Route::post('/add-user-role', [RoleController::class, 'addUserRole']);
         Route::get('/search-user-by-role', [RoleController::class, 'searchUsersByRole']);
-
     });
+
+    Route::apiResource('company-cluster', CompanyClusterController::class);
 });
 
 Route::get('code', [PasswordGenController::class, 'index']);
-Route::get('company-clusters', [CompanyClustersController::class, 'index']);
 
 
 

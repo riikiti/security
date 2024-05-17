@@ -81,7 +81,6 @@ class ClusterResource extends Resource
     {
         return [
             'index' => Pages\ListClusters::route('/'),
-            'create' => Pages\CreateCluster::route('/create'),
             'edit' => Pages\EditCluster::route('/{record}/edit'),
         ];
     }

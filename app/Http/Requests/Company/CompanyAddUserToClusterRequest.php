@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Cluster;
+namespace App\Http\Requests\Company;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ClusterStoreRequest extends FormRequest
+class CompanyAddUserToClusterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,11 @@ class ClusterStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //'user_id' => 'required|exists:users,id|integer',
-            'password' => 'required|string',
-            'name' => 'required|string',
-            'company_id'=>'required|integer|exists:companies,id',
+            'cluster_id' => 'required|integer',
+            'user_id' => 'required|exists:users,id',
+            'is_redactor' => 'nullable',
+            'is_reader' => 'nullable',
+            'is_inviter' => 'nullable',
         ];
     }
 }
