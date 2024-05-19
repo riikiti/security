@@ -42,7 +42,7 @@ class ClusterController extends Controller
     {
         $clusters = Cluster::query()->where('user_id', $this->user->id)->get();
         foreach ($clusters as $cluster) {
-            $cluster->name = $this->encryptHelper->decrypt($cluster->name, $cluster->password);
+           // $cluster->name = $this->encryptHelper->decrypt($cluster->name, $cluster->password);
         }
         return response()->json(['status' => 'success', 'data' => ClusterResource::collection($clusters)]);
     }
@@ -50,7 +50,7 @@ class ClusterController extends Controller
     public function show(): JsonResponse
     {
         $this->cluster = resolve('cluster');
-        $this->cluster->name = $this->encryptHelper->decrypt($this->cluster->name, $this->cluster->password);
+        //$this->cluster->name = $this->encryptHelper->decrypt($this->cluster->name, $this->cluster->password);
         return response()->json(['status' => 'success', 'data' => ClusterRecordsResource::make($this->cluster)]);
     }
 
