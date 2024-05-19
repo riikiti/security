@@ -12,6 +12,7 @@ use App\Http\Resources\Cluster\ClusterRecordsResource;
 use App\Http\Resources\Cluster\ClusterResource;
 use App\Http\Resources\RecordsResource;
 use App\Models\Cluster;
+use App\Models\CompanyClusters;
 use App\Models\Record;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -42,7 +43,7 @@ class ClusterController extends Controller
     {
         $clusters = Cluster::query()->where('user_id', $this->user->id)->get();
         foreach ($clusters as $cluster) {
-           // $cluster->name = $this->encryptHelper->decrypt($cluster->name, $cluster->password);
+            // $cluster->name = $this->encryptHelper->decrypt($cluster->name, $cluster->password);
         }
         return response()->json(['status' => 'success', 'data' => ClusterResource::collection($clusters)]);
     }
@@ -56,17 +57,20 @@ class ClusterController extends Controller
 
     public function update(ClusterRequest $request): JsonResponse
     {
-        $this->cluster = resolve('cluster');
-        $this->setClusterParameters($this->data, $request, $this->cluster->password);
-        $this->cluster->fill($this->data)->save();
-        return response()->json(['status' => 'success', 'data' => ClusterRecordsResource::make($this->cluster)]);
+        $this->permissions($request->cluster_id);
+
+        $cluster = Cluster::query()->where('id',$request->cluster_id)->first();
+        $this->setClusterParameters($this->data, $request, $cluster->password);
+        $cluster->fill($this->data)->save();
+        return response()->json(['status' => 'success', 'data' => ClusterRecordsResource::make($cluster)]);
     }
 
     public function store(ClusterStoreRequest $request): JsonResponse
     {
+        $this->permissions($request->cluster_id);
         $this->data = $request->validated();
         $this->data['password'] = Hash::make($this->data['password']);
-       // $this->data['name'] = $this->encryptHelper->encrypt($this->data['name'], $this->data['password']);
+        // $this->data['name'] = $this->encryptHelper->encrypt($this->data['name'], $this->data['password']);
         $this->cluster = Cluster::create($this->data);
         $this->cluster->fill(['user_id' => $this->user->id])->save();
         return response()->json(['status' => 'success', 'data' => ClusterResource::make($this->cluster)]);
@@ -85,7 +89,7 @@ class ClusterController extends Controller
             $data['password'] = Hash::make($request->new_password);
             $data['name'] = $this->encryptHelper->encrypt($request->name, $data['password']);
         }
-       // $data['name'] = $this->encryptHelper->encrypt($request->name, $password);
+        // $data['name'] = $this->encryptHelper->encrypt($request->name, $password);
         return $data;
     }
 
@@ -95,5 +99,16 @@ class ClusterController extends Controller
             ->where('name', 'LIKE', '%' . $request->find . '%')
             ->get();
         return response()->json(['status' => 'success', 'data' => ClusterResource::collection($clusters)]);
+    }
+
+    public function permissions($cluster_id)
+    {
+        $clusterUser = CompanyClusters::query()->where('user_id', $this->user->id)->where(
+            'cluster_id',
+            $cluster_id
+        )->first();
+        if (!$clusterUser?->is_redactor) {
+            return response()->json(['status' => 'permission denied', 'data' => []]);
+        }
     }
 }
