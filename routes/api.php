@@ -38,13 +38,13 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
 
 Route::middleware(['check-token', 'is_banned', 'api'])->group(function () {
-    Route::group(['middleware' => ['cluster-password'], 'prefix' => 'clusters'], function () {
-        Route::get('/', [ClusterController::class, 'index'])->withoutMiddleware('cluster-password');
-        Route::get('show', [ClusterController::class, 'show']);
-        Route::post('update', [ClusterController::class, 'update'])->withoutMiddleware('cluster-password');
-        Route::post('store', [ClusterController::class, 'store'])->withoutMiddleware('cluster-password');
-        Route::post('delete/{cluster}', [ClusterController::class, 'delete'])>withoutMiddleware('cluster-password');
-        Route::post('search', [ClusterController::class, 'search'])->withoutMiddleware('cluster-password');
+    Route::group([ 'prefix' => 'clusters'], function () {
+        Route::get('/', [ClusterController::class, 'index']);
+        Route::get('show', [ClusterController::class, 'show'])->middleware('cluster-password');
+        Route::post('update', [ClusterController::class, 'update']);
+        Route::post('store', [ClusterController::class, 'store']);
+        Route::post('delete/{cluster}', [ClusterController::class, 'delete']);
+        Route::post('search', [ClusterController::class, 'search']);
     });
 
     Route::group(['prefix' => 'records'], function () {
