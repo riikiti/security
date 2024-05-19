@@ -11,10 +11,4 @@ class ListCompanies extends ListRecords
     protected static ?string $title = 'Компании';
     protected static string $resource = CompanyResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make(),
-        ];
-    }
 }
