@@ -22,7 +22,9 @@ class RegisterController extends Controller
         if (!$token = auth()->tokenById($this->user->id)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        return response()->json(['status' => 'success', 'token' => $this->respondWithToken($token)]);
+        return response()->json(
+            ['status' => 'success', 'token' => $this->respondWithToken($token), 'user' => $this->user]
+        );
     }
 
     protected function respondWithToken($token)
