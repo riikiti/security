@@ -59,7 +59,7 @@ class ClusterController extends Controller
     {
         $this->permissions($request->cluster_id);
 
-        $cluster = Cluster::query()->where('id',$request->cluster_id)->first();
+        $cluster = Cluster::query()->where('id', $request->cluster_id)->first();
         $this->setClusterParameters($this->data, $request, $cluster->password);
         $cluster->fill($this->data)->save();
         return response()->json(['status' => 'success', 'data' => ClusterRecordsResource::make($cluster)]);
@@ -76,10 +76,9 @@ class ClusterController extends Controller
         return response()->json(['status' => 'success', 'data' => ClusterResource::make($this->cluster)]);
     }
 
-    public function delete(): JsonResponse
+    public function delete(Cluster $cluster): JsonResponse
     {
-        $this->cluster = resolve('cluster');
-        $this->cluster->delete();
+        $cluster->delete();
         return response()->json(['status' => 'success', 'data' => []]);
     }
 
