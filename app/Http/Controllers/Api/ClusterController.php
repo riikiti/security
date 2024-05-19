@@ -66,7 +66,7 @@ class ClusterController extends Controller
     {
         $this->data = $request->validated();
         $this->data['password'] = Hash::make($this->data['password']);
-        $this->data['name'] = $this->encryptHelper->encrypt($this->data['name'], $this->data['password']);
+       // $this->data['name'] = $this->encryptHelper->encrypt($this->data['name'], $this->data['password']);
         $this->cluster = Cluster::create($this->data);
         $this->cluster->fill(['user_id' => $this->user->id])->save();
         return response()->json(['status' => 'success', 'data' => ClusterResource::make($this->cluster)]);
@@ -85,7 +85,7 @@ class ClusterController extends Controller
             $data['password'] = Hash::make($request->new_password);
             $data['name'] = $this->encryptHelper->encrypt($request->name, $data['password']);
         }
-        $data['name'] = $this->encryptHelper->encrypt($request->name, $password);
+       // $data['name'] = $this->encryptHelper->encrypt($request->name, $password);
         return $data;
     }
 
