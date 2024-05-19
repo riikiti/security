@@ -52,7 +52,7 @@ Route::middleware(['check-token', 'is_banned', 'api'])->group(function () {
         Route::get('show', [RecordsController::class, 'show']);
         Route::post('update', [RecordsController::class, 'update']);
         Route::post('store', [RecordsController::class, 'store']);
-        Route::post('delete', [RecordsController::class, 'delete']);
+        Route::post('delete/{record}', [RecordsController::class, 'delete']);
         Route::post('search', [RecordsController::class, 'search']);
     });
     Route::group(['prefix' => 'users'], function () {

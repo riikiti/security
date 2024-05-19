@@ -136,10 +136,9 @@ class RecordsController extends Controller
         return response()->json(['status' => 'success', 'data' => RecordsResource::make($this->record)]);
     }
 
-    public function delete(RecordsRequest $request): JsonResponse
+    public function delete(Record $record): JsonResponse
     {
-        $this->record = Record::find($request->record_id);
-        $this->record->delete();
+        $record->delete();
         return response()->json(['status' => 'success', 'data' => []]);
     }
 
