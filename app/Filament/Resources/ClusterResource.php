@@ -54,7 +54,7 @@ class ClusterResource extends Resource
             ->columns([
                 TextColumn::make('id')->label('id')->searchable(),
                 TextColumn::make('name')->label('Название')->searchable(),
-                TextColumn::make('user_email')->label('Пользователь')->searchable(),
+                TextColumn::make('user.email')->label('Пользователь')->searchable(),
                 TextColumn::make('company.name')->label('Компания')->searchable(),
             ])
             ->filters([
