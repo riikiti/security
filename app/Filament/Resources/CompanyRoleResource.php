@@ -40,9 +40,9 @@ class CompanyRoleResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id')->label('id'),
-                TextColumn::make('role')->label('Роль'),
-                TextColumn::make('company.name')->label('Компания'),
+                TextColumn::make('id')->label('id')->searchable(),
+                TextColumn::make('role')->label('Роль')->searchable(),
+                TextColumn::make('company.name')->label('Компания')->searchable(),
             ])
             ->filters([
                 //
