@@ -43,7 +43,7 @@ Route::middleware(['check-token', 'is_banned', 'api'])->group(function () {
         Route::get('show', [ClusterController::class, 'show']);
         Route::post('update', [ClusterController::class, 'update'])->withoutMiddleware('cluster-password');
         Route::post('store', [ClusterController::class, 'store'])->withoutMiddleware('cluster-password');
-        Route::post('delete/{cluster}', [ClusterController::class, 'delete']);
+        Route::post('delete/{cluster}', [ClusterController::class, 'delete'])>withoutMiddleware('cluster-password');
         Route::post('search', [ClusterController::class, 'search'])->withoutMiddleware('cluster-password');
     });
 
