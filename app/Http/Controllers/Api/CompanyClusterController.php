@@ -36,6 +36,17 @@ class CompanyClusterController extends Controller
 
     public function store(CompanyAddUserToClusterRequest $request): JsonResponse
     {
+        $user = CompanyClusters::query()->where('user_id', auth()->user()->id)->where(
+            'cluster_id',
+            $request->cluster_id
+        )->first();
+
+        if (!$user->is_redactor) {
+            return response()->json([
+                'status' => 'denied',
+                'data' => 'permission denied'
+            ]);
+        }
         return response()->json(
             [
                 'status' => 'success',
@@ -46,14 +57,14 @@ class CompanyClusterController extends Controller
 
     public function update($id, CompanyUpdateUserToClusterRequest $request): JsonResponse
     {
-        $cluster =  CompanyClusters::query()->find($id);
+        $cluster = CompanyClusters::query()->find($id);
         $cluster->update($request->validated());
         return response()->json(['status' => 'success', 'data' => CompanyClustersUsersResource::make($cluster)]);
     }
 
     public function destroy($id): JsonResponse
     {
-        $cluster =  CompanyClusters::query()->find($id);
+        $cluster = CompanyClusters::query()->find($id);
         $cluster->delete();
         return response()->json(['status' => 'success', 'data' => []]);
     }
