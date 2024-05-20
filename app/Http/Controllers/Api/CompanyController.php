@@ -30,8 +30,9 @@ class CompanyController extends Controller
 
     public function store(CompanyStoreRequest $request)
     {
-
-        return response()->json(['status' => 'success', 'data' => CompanyResource::make(Company::create($request->validated()))]);
+        return response()->json(
+            ['status' => 'success', 'data' => CompanyResource::make(Company::create($request->validated()))]
+        );
     }
 
     public function addUser(UserCompanyRequest $request)
@@ -56,14 +57,17 @@ class CompanyController extends Controller
 
     public function showCurrentUser(UserCompanyRequest $request)
     {
-        $user = User::query()->where('id',$request->user_id)->where('id', $request->company_id)->first();
+        $user = User::query()->where('id', $request->user_id)->where('id', $request->company_id)->first();
         return response()->json(['status' => 'success', 'data' => UserResource::make($user)]);
     }
 
     public function update(CompanyRequest $request)
     {
         $new_company_info = $request->validated();
-        $company = Company::query()->where('id', $new_company_info['company_id'])->where('owner_id', $this->user->id)->first();
+        $company = Company::query()->where('id', $new_company_info['company_id'])->where(
+            'owner_id',
+            $this->user->id
+        )->first();
         $company->fill($new_company_info)->save();
         return response()->json(['status' => 'success', 'data' => CompanyResource::make($company)]);
     }
@@ -71,12 +75,12 @@ class CompanyController extends Controller
     public function deleteUser(UserCompanyRequest $request)
     {
         $company = Company::query()->where('id', $request->company_id)->where('owner_id', auth()->user()->id)->first();
-        $user = User::query()->where('id',$request->user_id)->first();
+        $user = User::query()->where('id', $request->user_id)->first();
         if ($user->company_id == $company->id) {
             $user->fill(['company_id' => null])->save();
             return response()->json(['status' => 'error', 'data' => UserCompactResorce::make($this->user)]);
         }
-        if ($company){
+        if ($company) {
             return response()->json(['status' => 'denied', 'data' => 'Your dont owner']);
         }
         return response()->json(['status' => 'error', 'message' => 'user not in company']);
@@ -87,5 +91,14 @@ class CompanyController extends Controller
         $company = Company::query()->where('id', $request->company_id)->where('owner_id', $this->user->id)->first();
         $company->delete();
         return response()->json(['status' => 'success', 'data' => []]);
+    }
+
+    public function searchUsersInCompany(UserCompanyRequest $request)
+    {
+        $clusters = User::query()
+            ->where('name', 'LIKE', '%' . $request->find . '%')
+            ->where('company_id', $request->company_id)
+            ->get();
+        return response()->json(['status' => 'success', 'data' => UserCompactResorce::collection($clusters)]);
     }
 }

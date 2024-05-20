@@ -71,6 +71,7 @@ Route::middleware(['check-token', 'is_banned', 'api'])->group(function () {
         Route::post('update', [CompanyController::class, 'update']);
         Route::post('delete-user', [CompanyController::class, 'deleteUser']);
         Route::post('delete', [CompanyController::class, 'delete']);
+        Route::post('search-user', [CompanyController::class, 'searchUsersInCompany']);
     });
 
     Route::group(['prefix' => 'role'], function () {
