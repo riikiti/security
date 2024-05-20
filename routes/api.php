@@ -4,7 +4,6 @@ use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\ClusterController;
 use App\Http\Controllers\Api\CompanyClusterController;
-use App\Http\Controllers\Api\CompanyClustersController;
 use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\PasswordGenController;
 use App\Http\Controllers\Api\RecordsController;

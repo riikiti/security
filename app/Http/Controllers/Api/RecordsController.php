@@ -144,11 +144,36 @@ class RecordsController extends Controller
 
     public function search(SearchRecordsRequest $request): JsonResponse
     {
+        $encryptedRecords = [];
         $records = Record::query()
             ->where('cluster_id', $request->cluster_id)
             ->where('title', 'LIKE', '%' . $request->find . '%')
             ->get();
-        return response()->json(['status' => 'success', 'data' => RecordsResource::collection($records)]);
+
+        foreach ($records as $record) {
+            $this->password = $record->cluster->password;
+            $decryptedRecord['id'] = $record->id;
+            $decryptedRecord['email'] = isset($record->email) ? $this->encryptHelper->decrypt(
+                $record->email,
+                $this->password
+            ) : null;
+            $decryptedRecord['site'] = isset($record->site) ? $this->encryptHelper->decrypt(
+                $record->site,
+                $this->password
+            ) : null;
+            $decryptedRecord['login'] = isset($record->login) ? $this->encryptHelper->decrypt(
+                $record->login,
+                $this->password
+            ) : null;
+            $decryptedRecord['password'] = isset($record->password) ? $this->encryptHelper->decrypt(
+                $record->password,
+                $this->password
+            ) : null;
+            $this->data['color'] = $this->data['color'] ?? null;
+            $this->data['title'] = $this->data['title'] ?? null;
+            $encryptedRecords[] = $decryptedRecord;
+        }
+        return response()->json(['status' => 'success', 'data' => RecordsResource::collection($encryptedRecords)]);
     }
 
 }
