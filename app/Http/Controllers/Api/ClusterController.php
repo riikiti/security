@@ -7,6 +7,7 @@ use App\Http\Requests\Cluster\ClusterCompactRequest;
 use App\Http\Requests\Cluster\ClusterRequest;
 use App\Http\Requests\Cluster\ClusterStoreRequest;
 use App\Http\Requests\Records\RecordsStoreRequest;
+use App\Http\Requests\Search\SearchClusterRequest;
 use App\Http\Requests\Search\SearchRecordsRequest;
 use App\Http\Resources\Cluster\ClusterRecordsResource;
 use App\Http\Resources\Cluster\ClusterResource;
@@ -93,7 +94,7 @@ class ClusterController extends Controller
         return $data;
     }
 
-    public function search(SearchRecordsRequest $request): JsonResponse
+    public function search(SearchClusterRequest $request): JsonResponse
     {
         $clusters = Cluster::query()
             ->where('name', 'LIKE', '%' . $request->find . '%')

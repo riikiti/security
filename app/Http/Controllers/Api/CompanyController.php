@@ -64,10 +64,14 @@ class CompanyController extends Controller
 
     public function deleteUser(UserCompanyRequest $request)
     {
-        $company = Company::query()->where('id', $request->company_id)->where('owner_id', $this->user->id)->first();
-        if ($this->user->company_id == $company->id) {
-            $this->user->fill(['company_id' => null])->save();
+        $company = Company::query()->where('id', $request->company_id)->where('owner_id', auth()->user()->id)->first();
+        $user = User::query()->where('id',$request->user_id);
+        if ($user->company_id == $company->id) {
+            $user->fill(['company_id' => null])->save();
             return response()->json(['status' => 'error', 'data' => UserCompactResorce::make($this->user)]);
+        }
+        if ($company){
+            return response()->json(['status' => 'denied', 'data' => 'Your dont owner']);
         }
         return response()->json(['status' => 'error', 'message' => 'user not in company']);
     }

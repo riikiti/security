@@ -53,7 +53,7 @@ class RecordsController extends Controller
             $this->data['title'] = $this->data['title'] ?? null;
             $encryptedRecords[] = $decryptedRecord;
         }
-        return response()->json(['status' => 'success', 'data' => $encryptedRecords]);
+        return response()->json(['status' => 'success', 'data' => RecordsResource::collection($encryptedRecords)]);
     }
 
     public function show(RecordsRequest $request): JsonResponse
@@ -79,7 +79,7 @@ class RecordsController extends Controller
             $this->password
         ) : null;
         $this->data['id'] = $this->record->id;
-        return response()->json(['status' => 'success', 'data' => $this->data]);
+        return response()->json(['status' => 'success', 'data' => RecordsResource::make($this->data)]);
     }
 
     public function store(RecordsStoreRequest $request): JsonResponse

@@ -47,4 +47,9 @@ class UserController extends Controller
         $user->delete();
         return response()->json(['status' => 'success', 'data' => []]);
     }
+
+    public function search()
+    {
+
+    }
 }
