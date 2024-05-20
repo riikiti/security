@@ -54,6 +54,12 @@ class CompanyController extends Controller
         return response()->json(['status' => 'success', 'data' => CompanyUserstResorce::make($company)]);
     }
 
+    public function showCurrentUser(UserCompanyRequest $request)
+    {
+        $user = User::query()->where('id',$request->user_id)->where('id', $request->company_id)->first();
+        return response()->json(['status' => 'success', 'data' => UserResource::make($user)]);
+    }
+
     public function update(CompanyRequest $request)
     {
         $new_company_info = $request->validated();
@@ -65,7 +71,7 @@ class CompanyController extends Controller
     public function deleteUser(UserCompanyRequest $request)
     {
         $company = Company::query()->where('id', $request->company_id)->where('owner_id', auth()->user()->id)->first();
-        $user = User::query()->where('id',$request->user_id);
+        $user = User::query()->where('id',$request->user_id)->first();
         if ($user->company_id == $company->id) {
             $user->fill(['company_id' => null])->save();
             return response()->json(['status' => 'error', 'data' => UserCompactResorce::make($this->user)]);
