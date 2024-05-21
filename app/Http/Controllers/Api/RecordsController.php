@@ -32,6 +32,7 @@ class RecordsController extends Controller
         $cluster = Cluster::find($request->cluster_id);
         $records = Record::query()->where('cluster_id', $request->cluster_id)->get();
         foreach ($records as $record) {
+
             $decryptedRecord['id'] = $record->id;
             $decryptedRecord['email'] = isset($record->email) ? $this->encryptHelper->decrypt(
                 $record->email,
@@ -49,11 +50,11 @@ class RecordsController extends Controller
                 $record->password,
                 $cluster->password
             ) : null;
-            $this->data['color'] = $this->data['color'] ?? null;
-            $this->data['title'] = $this->data['title'] ?? null;
+            $decryptedRecord['color'] =  $record->color ?? null;
+            $decryptedRecord['title'] = $record->title ?? null;
             $encryptedRecords[] = $decryptedRecord;
         }
-        return response()->json(['status' => 'success', 'data' => RecordsResource::collection($encryptedRecords)]);
+        return response()->json(['status' => 'success', 'data' => $encryptedRecords]);
     }
 
     public function show(RecordsRequest $request): JsonResponse
@@ -79,7 +80,7 @@ class RecordsController extends Controller
             $this->password
         ) : null;
         $this->data['id'] = $this->record->id;
-        return response()->json(['status' => 'success', 'data' => RecordsResource::make($this->data)]);
+        return response()->json(['status' => 'success', 'data' => $this->data]);
     }
 
     public function store(RecordsStoreRequest $request): JsonResponse
@@ -106,7 +107,7 @@ class RecordsController extends Controller
             $cluster->password
         ) : null;
         $this->record = Record::create($this->data);
-        return response()->json(['status' => 'success', 'data' => RecordsResource::make($this->record)]);
+        return response()->json(['status' => 'success', 'data' => $this->record]);
     }
 
     public function update(RecordsRequest $request): JsonResponse
@@ -133,7 +134,7 @@ class RecordsController extends Controller
             $this->password
         ) : null;
         $this->record->fill($this->data)->save();
-        return response()->json(['status' => 'success', 'data' => RecordsResource::make($this->record)]);
+        return response()->json(['status' => 'success', 'data' => $this->record]);
     }
 
     public function delete(Record $record): JsonResponse
@@ -173,7 +174,7 @@ class RecordsController extends Controller
             $this->data['title'] = $this->data['title'] ?? null;
             $encryptedRecords[] = $decryptedRecord;
         }
-        return response()->json(['status' => 'success', 'data' => RecordsResource::collection($encryptedRecords)]);
+        return response()->json(['status' => 'success', 'data' => $encryptedRecords]);
     }
 
 }
