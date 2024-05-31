@@ -188,6 +188,9 @@ return [
     |
     */
 
+    'passwordApi'=>env('PASSWORD_API','https://api.pwnedpasswords.com/range/'),
+
+
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
         'Otp' => Teckwei1993\Otp\OtpFacade::class

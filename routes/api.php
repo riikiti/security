@@ -1,7 +1,9 @@
 <?php
 
+use App\Actions\CheckPasswordAction;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\RegisterController;
+use App\Http\Controllers\Api\CheckPasswordController;
 use App\Http\Controllers\Api\ClusterController;
 use App\Http\Controllers\Api\CompanyClusterController;
 use App\Http\Controllers\Api\CompanyController;
@@ -87,6 +89,7 @@ Route::middleware(['check-token', 'is_banned', 'api'])->group(function () {
 
 
 Route::get('code', [PasswordGenController::class, 'index']);
+Route::get('/password',CheckPasswordController::class);
 
 
 
