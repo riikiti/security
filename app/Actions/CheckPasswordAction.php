@@ -37,10 +37,10 @@ class CheckPasswordAction
         }
         foreach ($results as $result) {
             if ($result['code'] == $check_hash) {
-                return response()->json(['status' => 'find success', 'enters' => $result['value']]);
+                return response()->json(['status' => 'Пароль утек, совпадений найжено', 'enters' => $result['value']]);
             }
         }
 
-        return response()->json(['status' => 'didnt find', 'data' => []]);
+        return response()->json(['status' => 'Пароль не утек', 'data' => []]);
     }
 }
