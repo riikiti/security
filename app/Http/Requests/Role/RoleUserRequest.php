@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Role;
 
+use App\Http\Resources\CompanyCompactResource;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RoleUserRequest extends FormRequest
@@ -23,7 +24,8 @@ class RoleUserRequest extends FormRequest
     {
         return [
             'user_id' => 'required',
-            'role_id' => 'required'
+            'role_id' => 'required',
+            'company'=>new CompanyCompactResource($this->company)
         ];
     }
 }
