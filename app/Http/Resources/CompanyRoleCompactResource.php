@@ -14,6 +14,9 @@ class CompanyRoleCompactResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return ['role' => $this->role];
+        return [
+            'id'=>$this->id,
+            'role' => $this->role
+        ];
     }
 }
