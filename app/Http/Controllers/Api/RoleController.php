@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Role\RoleCompactRequest;
 use App\Http\Requests\Role\RoleSearchRequest;
 use App\Http\Requests\Role\RoleSearchUsersByRoleRequest;
 use App\Http\Requests\Role\RoleStoreRequest;
@@ -47,7 +48,7 @@ class RoleController extends Controller
     public function addUserRole(RoleUserRequest $request): JsonResponse
     {
         $user = User::query()->where('id', $request->user_id)->first();
-        $user->fill(['role_id'=> $request->role_id])->save();
+        $user->fill(['role_id' => $request->role_id])->save();
         return response()->json(
             ['status' => 'success', 'data' => UserResource::make($user)]
         );
@@ -62,6 +63,25 @@ class RoleController extends Controller
                 'status' => 'success',
                 'data' => UserCompactResorce::collection($users)
             ]
+        );
+    }
+
+    public function updateRole(RoleCompactRequest $request): JsonResponse
+    {
+        $role = CompanyRole::query()->where('id', request('role_id'))->first();
+        $role->fill(['role' => $request->role])->save();
+        return response()->json(
+            ['status' => 'success', 'data' => CompanyRoleResource::make($role)]
+        );
+    }
+
+
+    public function deleteRole(RoleCompactRequest $request): JsonResponse
+    {
+        $role = CompanyRole::query()->where('id', request('role_id'))->first();
+        $role->delete();
+        return response()->json(
+            ['status' => 'success', 'data' => []]
         );
     }
 }

@@ -39,7 +39,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
 
 Route::middleware(['check-token', 'is_banned', 'api'])->group(function () {
-    Route::group([ 'prefix' => 'clusters'], function () {
+    Route::group(['prefix' => 'clusters'], function () {
         Route::get('/', [ClusterController::class, 'index']);
         Route::get('show', [ClusterController::class, 'show'])->middleware('cluster-password');
         Route::post('update', [ClusterController::class, 'update']);
@@ -80,6 +80,8 @@ Route::middleware(['check-token', 'is_banned', 'api'])->group(function () {
         Route::get('/all-role', [RoleController::class, 'allRole']);
         Route::post('/add-user-role', [RoleController::class, 'addUserRole']);
         Route::get('/search-user-by-role', [RoleController::class, 'searchUsersByRole']);
+        Route::post('/update', [RoleController::class, 'updateRole']);
+        Route::post('/delete', [RoleController::class, 'deleteRole']);
     });
 
     Route::apiResource('company-cluster', CompanyClusterController::class);
@@ -87,9 +89,8 @@ Route::middleware(['check-token', 'is_banned', 'api'])->group(function () {
 //todo refactor routes to apiResource
 
 
-
 Route::get('code', [PasswordGenController::class, 'index']);
-Route::get('/password',CheckPasswordController::class);
+Route::get('/password', CheckPasswordController::class);
 
 
 
