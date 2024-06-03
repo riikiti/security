@@ -12,6 +12,7 @@ use App\Http\Resources\CompanyRoleCompactResource;
 use App\Http\Resources\CompanyRoleResource;
 use App\Http\Resources\UserCompactResorce;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\UserRoleResource;
 use App\Models\CompanyRole;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -50,7 +51,7 @@ class RoleController extends Controller
         $user = User::query()->where('id', $request->user_id)->first();
         $user->fill(['role_id' => $request->role_id])->save();
         return response()->json(
-            ['status' => 'success', 'data' => UserResource::make($user)]
+            ['status' => 'success', 'data' => UserRoleResource::make($user)]
         );
     }
 

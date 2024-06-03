@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Company\CompanyAddUserToClusterRequest;
 use App\Http\Requests\Company\CompanyUpdateUserToClusterRequest;
 use App\Http\Requests\CompanyRequest;
+use App\Http\Resources\Cluster\ClusterResource;
 use App\Http\Resources\Company\CompanyClustersUsersResource;
 use App\Http\Resources\CompanyCompactResource;
 use App\Models\Cluster;
@@ -67,6 +68,13 @@ class CompanyClusterController extends Controller
         $cluster = CompanyClusters::query()->find($id);
         $cluster->delete();
         return response()->json(['status' => 'success', 'data' => []]);
+    }
+
+    public function addCluster(CompanyRequest $request): JsonResponse
+    {
+        $cluster = Cluster::create($request->validated());
+        $cluster->fill(['owner_id'=>auth()->user()->id])->save();
+        return response()->json(['status' => 'success', 'data' => ClusterResource::make($cluster)]);
     }
 
 }

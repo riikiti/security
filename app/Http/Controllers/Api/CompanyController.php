@@ -12,6 +12,7 @@ use App\Http\Resources\UserCompactResorce;
 use App\Http\Resources\UserResource;
 use App\Models\Company;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -55,9 +56,9 @@ class CompanyController extends Controller
         return response()->json(['status' => 'success', 'data' => CompanyUserstResorce::make($company)]);
     }
 
-    public function showCurrentUser(UserCompanyRequest $request)
+    public function showCurrentUser(UserCompanyRequest $request): JsonResponse
     {
-        $user = User::query()->where('id', $request->user_id)->where('id', $request->company_id)->first();
+        $user = User::query()->where('id', $request->user_id)->where('company_id', $request->company_id)->first();
         return response()->json(['status' => 'success', 'data' => UserResource::make($user)]);
     }
 

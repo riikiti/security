@@ -85,6 +85,8 @@ Route::middleware(['check-token', 'is_banned', 'api'])->group(function () {
     });
 
     Route::apiResource('company-cluster', CompanyClusterController::class);
+
+    Route::post('/company-cluster/create', [CompanyClusterController::class,'addCluster']);
 });
 //todo refactor routes to apiResource
 
