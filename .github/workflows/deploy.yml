@@ -1,0 +1,27 @@
+name: deploy.yml
+on:
+  push:
+      branches:
+        - master
+
+jobs:
+  backend_deploy:
+    environment:
+      name: PRODUCTION
+      url: https://security-diplom.ru/
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      -   name: connect to ssh and deploy
+          uses: appleboy/ssh-action@v1.0.3
+          with:
+            host: '95.163.229.122'
+            username: 'root'
+            password: ${{ secrets.SERVERS_KEY }}
+            key: ${{ secrets.KEY }}
+            script: |
+              cd var/www/security
+              git pull
+              composer install
+              php artisan migrate --force
