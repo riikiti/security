@@ -21,7 +21,7 @@ jobs:
             password: ${{ secrets.SERVERS_KEY }}
             key: ${{ secrets.KEY }}
             script: |
-              cd var/www/security
+              cd ~/../var/www/security
               git pull
               composer install
               php artisan migrate --force
