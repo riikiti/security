@@ -79,7 +79,7 @@ class RoleController extends Controller
 
     public function deleteRole(RoleCompactRequest $request): JsonResponse
     {
-        $role = CompanyRole::query()->where('id', request('role_id'))->first();
+        $role = CompanyRole::query()->where('id', $request->role_id)->first();
         $role->delete();
         return response()->json(
             ['status' => 'success', 'data' => []]

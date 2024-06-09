@@ -25,7 +25,6 @@ class RoleUserRequest extends FormRequest
         return [
             'user_id' => 'required',
             'role_id' => 'required',
-            'company'=>new CompanyCompactResource($this->company)
         ];
     }
 }
