@@ -25,3 +25,4 @@ jobs:
               git pull
               composer install
               php artisan migrate --force
+              service nginx restart
