@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Cluster\ClusterStoreRequest;
 use App\Http\Requests\Company\CompanyAddUserToClusterRequest;
 use App\Http\Requests\Company\CompanyUpdateUserToClusterRequest;
 use App\Http\Requests\CompanyRequest;
@@ -70,10 +71,9 @@ class CompanyClusterController extends Controller
         return response()->json(['status' => 'success', 'data' => []]);
     }
 
-    public function addCluster(CompanyRequest $request): JsonResponse
+    public function addCluster(ClusterStoreRequest $request): JsonResponse
     {
         $cluster = Cluster::create($request->validated());
-        $cluster->fill(['owner_id'=>auth()->user()->id])->save();
         return response()->json(['status' => 'success', 'data' => ClusterResource::make($cluster)]);
     }
 
