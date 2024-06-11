@@ -24,11 +24,10 @@ class ClusterMiddleware
             'cluster_id' => 'required|exists:clusters,id|integer',
             'password' => 'string|required'
         ]);
-        $cluster = Cluster::query()->where('user_id', auth()->user()->id)->where(
+        $cluster = Cluster::query()->where(
             'id',
             intval($validated_data['cluster_id'])
         )->first();
-        dd($cluster);
         if (!Hash::check($validated_data['password'], $cluster->password)) {
             return response()->json([
                 'status' => 403,
