@@ -100,8 +100,6 @@ class RecordsController extends Controller
             $this->data['login'],
             $cluster->password
         ) : null;
-        $this->data['color'] = $this->data['color'] ?? null;
-        $this->data['title'] = $this->data['title'] ?? null;
         $this->data['password'] = isset($this->data['password']) ? $this->encryptHelper->encrypt(
             $this->data['password'],
             $cluster->password
