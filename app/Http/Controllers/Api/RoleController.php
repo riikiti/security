@@ -70,11 +70,11 @@ class RoleController extends Controller
 
     public function searchRole(SearchClusterRequest $request): JsonResponse
     {
-        $role = CompanyRole::query()->where('role', 'LIKE', '%' . $request->find . '%');
+        $roles = CompanyRole::query()->where('role', 'LIKE', '%' . $request->find . '%');
         return response()->json(
             [
                 'status' => 'success',
-                'data' => CompanyRoleResource::make($role)
+                'data' => CompanyRoleResource::collection($roles)
             ]
         );
     }
@@ -82,6 +82,7 @@ class RoleController extends Controller
     public function updateRole(RoleCompactRequest $request): JsonResponse
     {
         $role = CompanyRole::query()->where('id', $request->role_id)->first();
+        dd($role);
         $role->fill(['role' => $request->role])->save();
         return response()->json(
             ['status' => 'success', 'data' => CompanyRoleResource::make($role)]
@@ -92,6 +93,7 @@ class RoleController extends Controller
     public function deleteRole(RoleCompactRequest $request): JsonResponse
     {
         $role = CompanyRole::query()->where('id', $request->role_id)->first();
+        dd($role);
         $role->delete();
         return response()->json(
             ['status' => 'success', 'data' => []]
