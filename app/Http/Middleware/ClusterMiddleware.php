@@ -28,12 +28,22 @@ class ClusterMiddleware
             'id',
             intval($validated_data['cluster_id'])
         )->first();
-        if (!Hash::check($validated_data['password'], $cluster->password)) {
-            return response()->json([
-                'status' => 403,
-                'message' => 'forbidden password'
-            ], 403);
+        if ($cluster->company_id != null) {
+            if ($validated_data['password'] !== $cluster->password) {
+                return response()->json([
+                    'status' => 403,
+                    'message' => 'forbidden password'
+                ], 403);
+            }
+        }else{
+            if (!Hash::check($validated_data['password'], $cluster->password)) {
+                return response()->json([
+                    'status' => 403,
+                    'message' => 'forbidden password'
+                ], 403);
+            }
         }
+
         app()->instance('cluster', $cluster);
         return $next($request);
     }
