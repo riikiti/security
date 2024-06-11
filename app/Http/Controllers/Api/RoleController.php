@@ -8,6 +8,7 @@ use App\Http\Requests\Role\RoleSearchRequest;
 use App\Http\Requests\Role\RoleSearchUsersByRoleRequest;
 use App\Http\Requests\Role\RoleStoreRequest;
 use App\Http\Requests\Role\RoleUserRequest;
+use App\Http\Requests\Search\SearchClusterRequest;
 use App\Http\Resources\CompanyRoleCompactResource;
 use App\Http\Resources\CompanyRoleResource;
 use App\Http\Resources\UserCompactResorce;
@@ -63,6 +64,17 @@ class RoleController extends Controller
             [
                 'status' => 'success',
                 'data' => UserCompactResorce::collection($users)
+            ]
+        );
+    }
+
+    public function searchRole(SearchClusterRequest $request): JsonResponse
+    {
+        $role = CompanyRole::query()->where('role', 'LIKE', '%' . $request->find . '%');
+        return response()->json(
+            [
+                'status' => 'success',
+                'data' => CompanyRoleResource::make($role)
             ]
         );
     }

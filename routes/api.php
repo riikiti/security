@@ -82,6 +82,7 @@ Route::middleware(['check-token', 'is_banned', 'api'])->group(function () {
         Route::get('/search-user-by-role', [RoleController::class, 'searchUsersByRole']);
         Route::post('/update', [RoleController::class, 'updateRole']);
         Route::post('/delete', [RoleController::class, 'deleteRole']);
+        Route::post('/search', [RoleController::class, 'searchRole']);
     });
 
     Route::apiResource('company-cluster', CompanyClusterController::class);

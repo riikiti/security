@@ -10,6 +10,7 @@ class CompanyRole extends Model
 {
     use HasFactory;
 
+    protected $table = 'company_roles';
     protected $fillable = ['role', 'company_id'];
 
     public function company(): BelongsTo
