@@ -53,12 +53,14 @@ class ClusterController extends Controller
     {
         $this->cluster = resolve('cluster');
         //$this->cluster->name = $this->encryptHelper->decrypt($this->cluster->name, $this->cluster->password);\
-        $permission = CompanyClusters::query()->where('cluster_id', $this->cluster->id)->where(
-            'user_id',
-            auth()->user()->id
-        )->first();
-        if (empty($permission) ) {
-            return response()->json(['status' => 'error', 'data' => 'didnt have permission']);
+        if (isset($this->cluster->company_id)) {
+            $permission = CompanyClusters::query()->where('cluster_id', $this->cluster->id)->where(
+                'user_id',
+                auth()->user()->id
+            )->first();
+            if (empty($permission)) {
+                return response()->json(['status' => 'error', 'data' => 'didnt have permission']);
+            }
         }
         return response()->json(['status' => 'success', 'data' => ClusterRecordsResource::make($this->cluster)]);
     }
