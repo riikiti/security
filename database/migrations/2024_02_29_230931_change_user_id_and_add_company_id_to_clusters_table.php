@@ -23,7 +23,9 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('clusters', function (Blueprint $table) {
+            $table->dropForeign('clusters_company_id_foreign');
             $table->dropColumn('company_id');
+            $table->foreignId('user_id')->change()->nullable(false);
         });
     }
 };
