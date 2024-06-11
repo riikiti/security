@@ -22,7 +22,8 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign('role_id');
+            $table->dropForeign('users_role_id_foreign');
+            $table->dropColumn('role_id');
             $table->dropColumn('is_banned');
         });
     }
