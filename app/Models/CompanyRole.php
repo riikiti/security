@@ -10,13 +10,9 @@ class CompanyRole extends Model
 {
     use HasFactory;
 
-    protected $table = 'company_roles';
+    protected $table = 'company_roles'; // Add this line
     protected $fillable = ['role', 'company_id'];
 
-    public function getTable(): string
-    {
-        return 'company_roles';
-    }
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);

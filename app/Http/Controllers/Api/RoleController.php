@@ -82,7 +82,6 @@ class RoleController extends Controller
     public function updateRole(RoleCompactRequest $request): JsonResponse
     {
         $role = CompanyRole::find(1);
-        dd($role);
         $role->fill(['role' => $request->role])->save();
         return response()->json(
             ['status' => 'success', 'data' => CompanyRoleResource::make($role)]
