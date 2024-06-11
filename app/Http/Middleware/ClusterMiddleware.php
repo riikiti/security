@@ -28,7 +28,7 @@ class ClusterMiddleware
             'id',
             intval($validated_data['cluster_id'])
         )->first();
-
+        dd($cluster);
         if (!Hash::check($validated_data['password'], $cluster->password)) {
             return response()->json([
                 'status' => 403,
