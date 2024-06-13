@@ -89,7 +89,6 @@ Route::middleware(['check-token', 'is_banned', 'api'])->group(function () {
 
     Route::post('/company-cluster/create', [CompanyClusterController::class,'addCluster']);
 });
-//todo refactor routes to apiResource
 
 
 Route::get('code', [PasswordGenController::class, 'index']);
