@@ -72,8 +72,8 @@ class RecordsController extends Controller
             $this->record->login,
             $this->password
         ) : null;
-        $this->data['color'] = $this->data['color'] ?? null;
-        $this->data['title'] = $this->data['title'] ?? null;
+        $this->data['color'] = $this->record->color ?? null;
+        $this->data['title'] = $this->record->title ?? null;
         $this->data['password'] = isset($this->record->password) ? $this->encryptHelper->decrypt(
             $this->record->password,
             $this->password
