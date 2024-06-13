@@ -32,7 +32,6 @@ class RecordsController extends Controller
         $cluster = Cluster::find($request->cluster_id);
         $records = Record::query()->where('cluster_id', $request->cluster_id)->get();
         foreach ($records as $record) {
-
             $decryptedRecord['id'] = $record->id;
             $decryptedRecord['email'] = isset($record->email) ? $this->encryptHelper->decrypt(
                 $record->email,
@@ -50,7 +49,7 @@ class RecordsController extends Controller
                 $record->password,
                 $cluster->password
             ) : null;
-            $decryptedRecord['color'] =  $record->color ?? null;
+            $decryptedRecord['color'] = $record->color ?? null;
             $decryptedRecord['title'] = $record->title ?? null;
             $encryptedRecords[] = $decryptedRecord;
         }
@@ -148,7 +147,6 @@ class RecordsController extends Controller
             ->where('cluster_id', $request->cluster_id)
             ->where('title', 'LIKE', '%' . $request->find . '%')
             ->get();
-
         foreach ($records as $record) {
             $this->password = $record->cluster->password;
             $decryptedRecord['id'] = $record->id;
@@ -168,8 +166,8 @@ class RecordsController extends Controller
                 $record->password,
                 $this->password
             ) : null;
-            $this->data['color'] = $this->data['color'] ?? null;
-            $this->data['title'] = $this->data['title'] ?? null;
+            $this->data['color'] = $record->color ?? null;
+            $this->data['title'] = $record->title ?? null;
             $encryptedRecords[] = $decryptedRecord;
         }
         return response()->json(['status' => 'success', 'data' => $encryptedRecords]);
