@@ -35,7 +35,7 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request)
     {
         $new_user_info = $request->validated();
-        $user = User::find($this->user->id);
+        $user = User::find(auth()->user()->id);
         if (isset( $new_user_info['email'])) {
             $user->fill(['email' => $new_user_info['email']])->save();
         }
