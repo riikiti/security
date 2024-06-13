@@ -70,7 +70,7 @@ class RoleController extends Controller
 
     public function searchRole(SearchClusterRequest $request): JsonResponse
     {
-        $roles = CompanyRole::query()->where('role', 'LIKE', '%' . $request->find . '%')->get();
+        $roles = CompanyRole::query()->where('role', 'LIKE', '%' . $request->find . '%')->where('company_id',$request->company_id)->get();
         return response()->json(
             [
                 'status' => 'success',
