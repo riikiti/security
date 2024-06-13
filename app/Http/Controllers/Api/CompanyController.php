@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Search\SearchUserInCompanyRequest;
 use App\Http\Requests\UserCompanyRequest;
 use App\Http\Requests\CompanyRequest;
 use App\Http\Requests\CompanyStoreRequest;
@@ -94,7 +95,7 @@ class CompanyController extends Controller
         return response()->json(['status' => 'success', 'data' => []]);
     }
 
-    public function searchUsersInCompany(UserCompanyRequest $request)
+    public function searchUsersInCompany(SearchUserInCompanyRequest $request)
     {
         $clusters = User::query()
             ->where('name', 'LIKE', '%' . $request->find . '%')
