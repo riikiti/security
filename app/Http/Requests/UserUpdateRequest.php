@@ -25,7 +25,7 @@ class UserUpdateRequest extends FormRequest
             //'user_id' => 'required|exists:users,id',
             'name' => 'string|nullable',
             'avatar' => 'nullable',
-            'email' => 'email|nullable',
+            'email' => 'nullable',
             'password' => 'nullable|string',
             'password_confirmed' => 'nullable|same:password',
             'role_id' => 'integer|nullable',
