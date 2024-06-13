@@ -25,8 +25,10 @@ class UserUpdateRequest extends FormRequest
             //'user_id' => 'required|exists:users,id',
             'name' => 'string|nullable',
             'avatar' => 'nullable',
-            'new_password' => 'nullable|string',
-            'new_password_confirmed' => 'nullable|same:new_password',
+            'email' => 'email|nullable',
+            'password' => 'nullable|string',
+            'password_confirmed' => 'nullable|same:new_password',
+            'role_id' => 'integer|nullable',
         ];
     }
 }

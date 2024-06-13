@@ -35,7 +35,7 @@ class UserController extends Controller
 
     public function update(UserUpdateRequest $request)
     {
-        $new_user_info = $request->validated();
+        $new_user_info = array_filter($request->validated());
         $user = User::find($this->user->id);
         $user->fill($new_user_info)->save();
         return response()->json(['status' => 'success', 'data' => UserResource::make($user)]);
