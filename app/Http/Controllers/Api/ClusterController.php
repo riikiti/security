@@ -9,6 +9,7 @@ use App\Http\Requests\Cluster\ClusterStoreRequest;
 use App\Http\Requests\Records\RecordsStoreRequest;
 use App\Http\Requests\Search\SearchClusterRequest;
 use App\Http\Requests\Search\SearchRecordsRequest;
+use App\Http\Requests\Search\SearchUserInCompanyRequest;
 use App\Http\Resources\Cluster\ClusterRecordsResource;
 use App\Http\Resources\Cluster\ClusterResource;
 use App\Http\Resources\RecordsResource;
@@ -102,6 +103,13 @@ class ClusterController extends Controller
         return response()->json(['status' => 'success', 'data' => ClusterResource::collection($clusters)]);
     }
 
+    public function searchInCompany(SearchUserInCompanyRequest $request): JsonResponse
+    {
+        $clusters = Cluster::query()
+            ->where('name', 'LIKE', '%' . $request->find . '%')->where('company_id',$request->company_id)
+            ->get();
+        return response()->json(['status' => 'success', 'data' => ClusterResource::collection($clusters)]);
+    }
     public function permissions($cluster_id)
     {
         $clusterUser = CompanyClusters::query()->where('user_id', $this->user->id)->where(

@@ -46,6 +46,7 @@ Route::middleware(['check-token', 'is_banned', 'api'])->group(function () {
         Route::post('store', [ClusterController::class, 'store']);
         Route::post('delete/{cluster}', [ClusterController::class, 'delete']);
         Route::post('search', [ClusterController::class, 'search']);
+        Route::post('search-company', [ClusterController::class, 'searchInCompany']);
     });
 
     Route::group(['prefix' => 'records'], function () {

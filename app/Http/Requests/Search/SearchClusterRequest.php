@@ -23,7 +23,6 @@ class SearchClusterRequest extends FormRequest
     {
         return [
             'find' => 'required|string',
-            'company_id' => 'required|integer',
         ];
     }
 }
