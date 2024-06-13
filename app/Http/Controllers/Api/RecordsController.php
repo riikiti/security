@@ -166,8 +166,8 @@ class RecordsController extends Controller
                 $record->password,
                 $this->password
             ) : null;
-            $this->data['color'] = $record->color ?? null;
-            $this->data['title'] = $record->title ?? null;
+            $decryptedRecord['color'] = $record->color ?? null;
+            $decryptedRecord['title'] = $record->title ?? null;
             $encryptedRecords[] = $decryptedRecord;
         }
         return response()->json(['status' => 'success', 'data' => $encryptedRecords]);
