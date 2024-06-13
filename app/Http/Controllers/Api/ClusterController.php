@@ -99,6 +99,7 @@ class ClusterController extends Controller
     {
         $clusters = Cluster::query()
             ->where('name', 'LIKE', '%' . $request->find . '%')
+            ->where('user_id', auth()->user()->id)
             ->get();
         return response()->json(['status' => 'success', 'data' => ClusterResource::collection($clusters)]);
     }
@@ -106,10 +107,11 @@ class ClusterController extends Controller
     public function searchInCompany(SearchUserInCompanyRequest $request): JsonResponse
     {
         $clusters = Cluster::query()
-            ->where('name', 'LIKE', '%' . $request->find . '%')->where('company_id',$request->company_id)
+            ->where('name', 'LIKE', '%' . $request->find . '%')->where('company_id', $request->company_id)
             ->get();
         return response()->json(['status' => 'success', 'data' => ClusterResource::collection($clusters)]);
     }
+
     public function permissions($cluster_id)
     {
         $clusterUser = CompanyClusters::query()->where('user_id', $this->user->id)->where(
