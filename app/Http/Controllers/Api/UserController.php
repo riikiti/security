@@ -29,7 +29,6 @@ class UserController extends Controller
 
     public function show()
     {
-
         return response()->json(['status' => 'success', 'data' => UserResource::make(User::find($this->user->id))]);
     }
 
@@ -37,17 +36,17 @@ class UserController extends Controller
     {
         $new_user_info = array_filter($request->validated());
         $user = User::find($this->user->id);
-        if ($new_user_info['email']){
-            $user->fill(['email'=>$new_user_info['email']])->save();
+        if (isset( $new_user_info['email'])) {
+            $user->fill(['email' => $new_user_info['email']])->save();
         }
-        if ($new_user_info['name']){
-            $user->fill(['name'=>$new_user_info['name']])->save();
+        if (isset($new_user_info['name'])) {
+            $user->fill(['name' => $new_user_info['name']])->save();
         }
-        if ($new_user_info['password']){
-            $user->fill(['password'=>$new_user_info['password']])->save();
+        if (isset($new_user_info['password'])) {
+            $user->fill(['password' => $new_user_info['password']])->save();
         }
-        if ($new_user_info['role_id']){
-            $user->fill(['role_id'=>$new_user_info['role_id']])->save();
+        if (isset($new_user_info['role_id'])) {
+            $user->fill(['role_id' => $new_user_info['role_id']])->save();
         }
         return response()->json(['status' => 'success', 'data' => UserResource::make($user)]);
     }
@@ -61,6 +60,5 @@ class UserController extends Controller
 
     public function search()
     {
-
     }
 }
