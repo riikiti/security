@@ -86,11 +86,12 @@ Route::middleware(['check-token', 'is_banned', 'api'])->group(function () {
         Route::post('/search', [RoleController::class, 'searchRole']);
     });
 
-    Route::apiResource('company-cluster', CompanyClusterController::class);
+    Route::apiResource('company-cluster', CompanyClusterController::class)->except('destroy');
 
     Route::post('/company-cluster/create', [CompanyClusterController::class,'addCluster']);
 
     Route::get('company-cluster/users/show', [CompanyClusterController::class,'allUsersCompanyClusters']);
+    Route::post('company-cluster/users/delete', [CompanyClusterController::class,'destroy']);
 });
 
 
