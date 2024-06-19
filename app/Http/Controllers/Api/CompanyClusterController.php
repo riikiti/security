@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cluster\ClusterStoreRequest;
+use App\Http\Requests\Cluster\CompanyClusterShowUsersRequest;
 use App\Http\Requests\Company\CompanyAddUserToClusterRequest;
 use App\Http\Requests\Company\CompanyUpdateUserToClusterRequest;
 use App\Http\Requests\CompanyRequest;
 use App\Http\Resources\Cluster\ClusterResource;
+use App\Http\Resources\Cluster\CompanyClusterShowUsersResource;
 use App\Http\Resources\Company\CompanyClustersUsersResource;
 use App\Http\Resources\CompanyCompactResource;
 use App\Models\Cluster;
@@ -77,6 +79,14 @@ class CompanyClusterController extends Controller
     {
         $cluster = Cluster::create($request->validated());
         return response()->json(['status' => 'success', 'data' => ClusterResource::make($cluster)]);
+    }
+
+    public function allUsersCompanyClusters(CompanyClusterShowUsersRequest $request): JsonResponse
+    {
+        $clusterUsers = CompanyClusters::query()->where('cluster_id', $request->cluster_id)->get();
+        return response()->json(
+            ['status' => 'success', 'data' => CompanyClusterShowUsersResource::collection($clusterUsers)]
+        );
     }
 
 }

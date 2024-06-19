@@ -89,6 +89,8 @@ Route::middleware(['check-token', 'is_banned', 'api'])->group(function () {
     Route::apiResource('company-cluster', CompanyClusterController::class);
 
     Route::post('/company-cluster/create', [CompanyClusterController::class,'addCluster']);
+
+    Route::get('/company-cluster/show-users', [CompanyClusterController::class,'allUsersCompanyClusters']);
 });
 
 

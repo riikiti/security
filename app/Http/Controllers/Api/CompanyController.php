@@ -9,7 +9,7 @@ use App\Http\Requests\CompanyRequest;
 use App\Http\Requests\CompanyStoreRequest;
 use App\Http\Resources\CompanyResource;
 use App\Http\Resources\CompanyUserstResorce;
-use App\Http\Resources\UserCompactResorce;
+use App\Http\Resources\UserCompactResource;
 use App\Http\Resources\UserResource;
 use App\Models\Company;
 use App\Models\User;
@@ -42,7 +42,7 @@ class CompanyController extends Controller
         $new_user_info = $request->validated();
         $user = User::find($new_user_info['user_id']);
         $user->fill($new_user_info)->save();
-        return response()->json(['status' => 'success', 'data' => UserCompactResorce::make($user)]);
+        return response()->json(['status' => 'success', 'data' => UserCompactResource::make($user)]);
     }
 
     public function show(CompanyRequest $request)
@@ -80,7 +80,7 @@ class CompanyController extends Controller
         $user = User::query()->where('id', $request->user_id)->first();
         if ($user->company_id == $company->id) {
             $user->fill(['company_id' => null])->save();
-            return response()->json(['status' => 'error', 'data' => UserCompactResorce::make($this->user)]);
+            return response()->json(['status' => 'error', 'data' => UserCompactResource::make($this->user)]);
         }
         if ($company) {
             return response()->json(['status' => 'denied', 'data' => 'Your dont owner']);
@@ -101,6 +101,6 @@ class CompanyController extends Controller
             ->where('name', 'LIKE', '%' . $request->find . '%')
             ->where('company_id', $request->company_id)
             ->get();
-        return response()->json(['status' => 'success', 'data' => UserCompactResorce::collection($clusters)]);
+        return response()->json(['status' => 'success', 'data' => UserCompactResource::collection($clusters)]);
     }
 }

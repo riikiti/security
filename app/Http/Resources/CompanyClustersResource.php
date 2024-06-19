@@ -17,7 +17,7 @@ class CompanyClustersResource extends JsonResource
         return [
             'id' => $this->id,
             'company' => CompanyCompactResource::make($this->company),
-            'user' => UserCompactResorce::make($this->user),
+            'user' => UserCompactResource::make($this->user),
 
         ];
     }

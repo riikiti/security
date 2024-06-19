@@ -11,7 +11,7 @@ use App\Http\Requests\Role\RoleUserRequest;
 use App\Http\Requests\Search\SearchClusterRequest;
 use App\Http\Resources\CompanyRoleCompactResource;
 use App\Http\Resources\CompanyRoleResource;
-use App\Http\Resources\UserCompactResorce;
+use App\Http\Resources\UserCompactResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserRoleResource;
 use App\Models\CompanyRole;
@@ -63,7 +63,7 @@ class RoleController extends Controller
         return response()->json(
             [
                 'status' => 'success',
-                'data' => UserCompactResorce::collection($users)
+                'data' => UserCompactResource::collection($users)
             ]
         );
     }

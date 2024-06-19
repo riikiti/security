@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Cluster;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CompanyUserstResorce extends JsonResource
+class CompanyClusterShowUsersResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,7 +15,7 @@ class CompanyUserstResorce extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'users' => UserCompactResource::collection($this->users)
+            'users' =>$this->user
         ];
     }
 }
