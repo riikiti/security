@@ -11,6 +11,7 @@ use App\Http\Resources\Cluster\ClusterResource;
 use App\Http\Resources\Company\CompanyClustersUsersResource;
 use App\Http\Resources\CompanyCompactResource;
 use App\Models\Cluster;
+use App\Models\Company;
 use App\Models\CompanyClusters;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -43,12 +44,13 @@ class CompanyClusterController extends Controller
             $request->cluster_id
         )->first();
 
-//        if (!$user?->is_redactor || $user?->is_redactor == null) {
-//            return response()->json([
-//                'status' => 'denied',
-//                'data' => 'permission denied'
-//            ]);
-//        }
+        $company = Company::query()->where('owner_id', $user->id)->first();
+        if (!$user?->is_redactor || $user?->is_redactor == null || empty($company)) {
+            return response()->json([
+                'status' => 'denied',
+                'data' => 'permission denied'
+            ]);
+        }
         return response()->json(
             [
                 'status' => 'success',
