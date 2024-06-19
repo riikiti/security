@@ -91,7 +91,7 @@ Route::middleware(['check-token', 'is_banned', 'api'])->group(function () {
     Route::post('/company-cluster/create', [CompanyClusterController::class,'addCluster']);
 
     Route::get('company-cluster/users/show', [CompanyClusterController::class,'allUsersCompanyClusters']);
-    Route::post('company-cluster/users/delete', [CompanyClusterController::class,'destroy']);
+    Route::post('company-cluster/users/delete/', [CompanyClusterController::class,'destroy']);
 });
 
 
