@@ -16,8 +16,11 @@ class CompanyClusterShowUsersResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'cluster' => $this?->cluster,
-            'users' => $this?->user
+            'cluster' => $this->cluster,
+            'users' => $this?->user,
+            'is_redactor' => $this->is_redactor,
+            'is_reader' => $this->is_reader,
+            'is_inviter' => $this->is_inviter,
         ];
     }
 }
