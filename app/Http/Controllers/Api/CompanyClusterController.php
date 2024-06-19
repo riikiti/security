@@ -43,12 +43,12 @@ class CompanyClusterController extends Controller
             $request->cluster_id
         )->first();
 
-        if (!$user?->is_redactor || $user?->is_redactor == null) {
-            return response()->json([
-                'status' => 'denied',
-                'data' => 'permission denied'
-            ]);
-        }
+//        if (!$user?->is_redactor || $user?->is_redactor == null) {
+//            return response()->json([
+//                'status' => 'denied',
+//                'data' => 'permission denied'
+//            ]);
+//        }
         return response()->json(
             [
                 'status' => 'success',
