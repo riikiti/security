@@ -15,7 +15,9 @@ class CompanyClusterShowUsersResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'users' =>$this->user
+            'id' => $this->id,
+            'cluster' => $this->cluster,
+            'user' => $this->user
         ];
     }
 }
