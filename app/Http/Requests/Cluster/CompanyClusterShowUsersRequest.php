@@ -22,7 +22,7 @@ class CompanyClusterShowUsersRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cluster_id' => 'required|integer',
+            'cluster_id' => 'required',
         ];
     }
 }
