@@ -46,13 +46,13 @@ class CompanyClusterController extends Controller
             $request->cluster_id
         )->first();
 
-        $company = Company::query()->where('owner_id', $user->id)->first();
+      /*  $company = Company::query()->where('owner_id', $user->id)->first();
         if (!$user?->is_redactor || $user?->is_redactor == null || empty($company)) {
             return response()->json([
                 'status' => 'denied',
                 'data' => 'permission denied'
             ]);
-        }
+        }*/
         return response()->json(
             [
                 'status' => 'success',
