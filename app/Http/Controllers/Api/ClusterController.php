@@ -57,7 +57,7 @@ class ClusterController extends Controller
             'user_id',
             auth()->user()->id
         )->first();
-        if (!$hasCluster) {
+        if (!$hasCluster && $this->cluster->company_id != null) {
             return response()->json(['status' => 'success', 'data' => ['message' => "Доступ запрещен"]]);
         }
         //$this->cluster->name = $this->encryptHelper->decrypt($this->cluster->name, $this->cluster->password);

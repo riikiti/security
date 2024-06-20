@@ -11,7 +11,7 @@ class Cluster extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'name', 'password', 'company_id'];
+    protected $fillable = ['id','user_id', 'name', 'password', 'company_id'];
 
     public function user(): BelongsTo
     {

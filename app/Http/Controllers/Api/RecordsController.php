@@ -96,7 +96,7 @@ class RecordsController extends Controller
             'user_id',
             auth()->user()->id
         )->first();
-        if (!$hasCluster?->is_redactor) {
+        if (!$hasCluster?->is_redactor && $cluster->company_id != null) {
             return response()->json(['status' => 'success', 'data' => ['message' => "Доступ запрещен"]]);
         }
         $this->data['email'] = isset($this->data['email']) ? $this->encryptHelper->encrypt(
@@ -129,7 +129,7 @@ class RecordsController extends Controller
             'user_id',
             auth()->user()->id
         )->first();
-        if (!$hasCluster?->is_redactor) {
+        if (!$hasCluster?->is_redactor && $this->record->cluster()->company_id != null) {
             return response()->json(['status' => 'success', 'data' => ['message' => "Доступ запрещен"]]);
         }
 
@@ -162,7 +162,7 @@ class RecordsController extends Controller
             'user_id',
             auth()->user()->id
         )->first();
-        if (!$hasCluster?->is_redactor) {
+        if (!$hasCluster?->is_redactor && $record->cluster()->company_id != null) {
             return response()->json(['status' => 'success', 'data' => ['message' => "Доступ запрещен"]]);
         }
         $record->delete();
