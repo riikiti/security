@@ -32,6 +32,10 @@ class RecordsController extends Controller
         $encryptedRecords = [];
         $cluster = Cluster::find($request->cluster_id);
         $records = Record::query()->where('cluster_id', $request->cluster_id)->get();
+        $companyCluster = CompanyClusters::query()->where('cluster_id', $cluster->id)->where(
+            'user_id',
+            auth()->user()->id
+        )->first();
         foreach ($records as $record) {
             $decryptedRecord['id'] = $record->id;
             $decryptedRecord['email'] = isset($record->email) ? $this->encryptHelper->decrypt(
@@ -54,7 +58,7 @@ class RecordsController extends Controller
             $decryptedRecord['title'] = $record->title ?? null;
             $encryptedRecords[] = $decryptedRecord;
         }
-        return response()->json(['status' => 'success', 'data' => $encryptedRecords]);
+        return response()->json(['status' => 'success', 'data' => $encryptedRecords, 'cluster' => $companyCluster]);
     }
 
     public function show(RecordsRequest $request): JsonResponse
@@ -121,7 +125,7 @@ class RecordsController extends Controller
         $this->record = Record::find($request->record_id);
 
 
-        $hasCluster = CompanyClusters::query()->where('cluster_id',$this->record->cluster()->id)->where(
+        $hasCluster = CompanyClusters::query()->where('cluster_id', $this->record->cluster()->id)->where(
             'user_id',
             auth()->user()->id
         )->first();
@@ -154,7 +158,7 @@ class RecordsController extends Controller
 
     public function delete(Record $record): JsonResponse
     {
-        $hasCluster = CompanyClusters::query()->where('cluster_id',$record->cluster()->id)->where(
+        $hasCluster = CompanyClusters::query()->where('cluster_id', $record->cluster()->id)->where(
             'user_id',
             auth()->user()->id
         )->first();

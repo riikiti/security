@@ -61,12 +61,7 @@ class ClusterController extends Controller
             return response()->json(['status' => 'success', 'data' => ['message' => "Доступ запрещен"]]);
         }
         //$this->cluster->name = $this->encryptHelper->decrypt($this->cluster->name, $this->cluster->password);
-        return response()->json(
-            [
-                'status' => 'success',
-                'data' => ['cluster' => ClusterRecordsResource::make($this->cluster), 'user' => $hasCluster]
-            ]
-        );
+        return response()->json(['status' => 'success', 'data' => ClusterRecordsResource::make($this->cluster)]);
     }
 
     public function update(ClusterRequest $request): JsonResponse
