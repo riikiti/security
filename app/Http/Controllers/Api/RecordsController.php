@@ -124,12 +124,12 @@ class RecordsController extends Controller
         $this->data = $request->validated();
         $this->record = Record::find($request->record_id);
 
-
-        $hasCluster = CompanyClusters::query()->where('cluster_id', $this->record->cluster()->id)->where(
+        $cluster = Cluster::query()->where('id', $this->record->cluster_id)->first();
+        $hasCluster = CompanyClusters::query()->where('cluster_id', $cluster->id)->where(
             'user_id',
             auth()->user()->id
         )->first();
-        if (!$hasCluster?->is_redactor && $this->record->cluster()->company_id != null) {
+        if (!$hasCluster?->is_redactor && $cluster->company_id != null) {
             return response()->json(['status' => 'success', 'data' => ['message' => "Доступ запрещен"]]);
         }
 
@@ -158,11 +158,12 @@ class RecordsController extends Controller
 
     public function delete(Record $record): JsonResponse
     {
-        $hasCluster = CompanyClusters::query()->where('cluster_id', $record->cluster()->id)->where(
+        $cluster = Cluster::query()->where('id', $record->cluster_id)->first();
+        $hasCluster = CompanyClusters::query()->where('cluster_id', $cluster->id)->where(
             'user_id',
             auth()->user()->id
         )->first();
-        if (!$hasCluster?->is_redactor && $record->cluster()->company_id != null) {
+        if (!$hasCluster?->is_redactor && $cluster->company_id != null) {
             return response()->json(['status' => 'success', 'data' => ['message' => "Доступ запрещен"]]);
         }
         $record->delete();
