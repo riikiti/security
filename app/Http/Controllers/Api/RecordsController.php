@@ -9,6 +9,7 @@ use App\Http\Requests\Records\RecordsStoreRequest;
 use App\Http\Requests\Search\SearchRecordsRequest;
 use App\Http\Resources\RecordsResource;
 use App\Models\Cluster;
+use App\Models\CompanyClusters;
 use App\Models\Record;
 use App\Services\Helpers\Encryption\EncryptionHelperService;
 use Illuminate\Http\JsonResponse;
@@ -87,6 +88,13 @@ class RecordsController extends Controller
         //вынести все данные в функцию чтоб данные сразу заносили зашифроваными
         $this->data = $request->validated();
         $cluster = Cluster::find($this->data['cluster_id']);
+        $hasCluster = CompanyClusters::query()->where('cluster_id', $cluster->id)->where(
+            'user_id',
+            auth()->user()->id
+        )->first();
+        if (!$hasCluster) {
+            return response()->json(['status' => 'success', 'data' => ['message' => "Доступ запрещен"]]);
+        }
         $this->data['email'] = isset($this->data['email']) ? $this->encryptHelper->encrypt(
             $this->data['email'],
             $cluster->password
@@ -111,6 +119,16 @@ class RecordsController extends Controller
     {
         $this->data = $request->validated();
         $this->record = Record::find($request->record_id);
+
+
+        $hasCluster = CompanyClusters::query()->where('cluster_id',$this->record->cluster()->id)->where(
+            'user_id',
+            auth()->user()->id
+        )->first();
+        if (!$hasCluster) {
+            return response()->json(['status' => 'success', 'data' => ['message' => "Доступ запрещен"]]);
+        }
+
         $this->password = $this->record->cluster->password;
         $this->data['email'] = isset($this->data['email']) ? $this->encryptHelper->encrypt(
             $this->data['email'],
@@ -136,6 +154,13 @@ class RecordsController extends Controller
 
     public function delete(Record $record): JsonResponse
     {
+        $hasCluster = CompanyClusters::query()->where('cluster_id',$record->cluster()->id)->where(
+            'user_id',
+            auth()->user()->id
+        )->first();
+        if (!$hasCluster) {
+            return response()->json(['status' => 'success', 'data' => ['message' => "Доступ запрещен"]]);
+        }
         $record->delete();
         return response()->json(['status' => 'success', 'data' => []]);
     }
