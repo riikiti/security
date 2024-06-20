@@ -53,6 +53,13 @@ class ClusterController extends Controller
     public function show(): JsonResponse
     {
         $this->cluster = resolve('cluster');
+        $hasCluster = CompanyClusters::query()->where('cluster_id', $this->cluster->id)->where(
+            'user_id',
+            auth()->user()->id
+        )->first();
+        if (!$hasCluster) {
+            return response()->json(['status' => 'success', 'data' => ['message' => "Доступ запрещен"]]);
+        }
         //$this->cluster->name = $this->encryptHelper->decrypt($this->cluster->name, $this->cluster->password);
         return response()->json(['status' => 'success', 'data' => ClusterRecordsResource::make($this->cluster)]);
     }
