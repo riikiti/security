@@ -78,6 +78,7 @@ class CompanyClusterController extends Controller
     public function addCluster(ClusterStoreRequest $request): JsonResponse
     {
         $cluster = Cluster::create($request->validated());
+        CompanyClusters::create(['cluster_id' => $cluster->id,'user_id'=>auth()->user()->id,'is_redactor'=>true,'is_reader'=>true,'is_inviter'=>true]);
         return response()->json(['status' => 'success', 'data' => ClusterResource::make($cluster)]);
     }
 
