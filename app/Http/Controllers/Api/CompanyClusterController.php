@@ -17,6 +17,7 @@ use App\Models\Company;
 use App\Models\CompanyClusters;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class CompanyClusterController extends Controller
 {
@@ -77,8 +78,7 @@ class CompanyClusterController extends Controller
 
     public function addCluster(ClusterStoreRequest $request): JsonResponse
     {
-        $cluster = Cluster::create($request->validated());
-        $cluster->fill(['password'=>$request->validated()['password']])->save();
+        $cluster = Cluster::create(['name'=>$request->name,'password'=>Hash::make($request->password),'company_id'=>$request->company_id]);
         CompanyClusters::create(['cluster_id' => $cluster->id,'user_id'=>auth()->user()->id,'is_redactor'=>true,'is_reader'=>true,'is_inviter'=>true]);
         return response()->json(['status' => 'success', 'data' => ClusterResource::make($cluster)]);
     }
