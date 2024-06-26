@@ -72,7 +72,7 @@ class ClusterController extends Controller
         $this->setClusterParameters($this->data, $request, $cluster->password);
         $cluster->fill($this->data)->save();
         if (isset($request->new_password) ){
-            $cluster->fill(['password'=> $this->data['password'] ])->save();
+            $cluster->fill(['password'=> Hash::make($request->new_password)])->save();
         }
         return response()->json(['status' => 'success', 'data' => ClusterRecordsResource::make($cluster)]);
     }
