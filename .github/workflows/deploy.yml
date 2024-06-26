@@ -8,7 +8,7 @@ jobs:
   backend_deploy:
     environment:
       name: PRODUCTION
-      url: https://security-diplom.ru/
+      url: https://security-diplom.online/
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
