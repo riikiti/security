@@ -89,6 +89,7 @@ class ClusterController extends Controller
         // $this->data['name'] = $this->encryptHelper->encrypt($this->data['name'], $this->data['password']);
         $this->cluster = Cluster::create($this->data);
         $this->cluster->fill(['user_id' => $this->user->id])->save();
+        $this->cluster->fill(['password' =>  Hash::make($this->data['password'])])->save();
         return response()->json(['status' => 'success', 'data' => ClusterResource::make($this->cluster)]);
     }
 
