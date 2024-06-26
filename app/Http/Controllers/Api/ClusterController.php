@@ -71,6 +71,9 @@ class ClusterController extends Controller
         $cluster = Cluster::query()->where('id', $request->cluster_id)->first();
         $this->setClusterParameters($this->data, $request, $cluster->password);
         $cluster->fill($this->data)->save();
+        if (isset($request->new_password) ){
+            $cluster->fill(['password'=> $this->data['password'] ])->save();
+        }
         return response()->json(['status' => 'success', 'data' => ClusterRecordsResource::make($cluster)]);
     }
 
