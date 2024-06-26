@@ -29,7 +29,7 @@ class ClusterMiddleware
             intval($validated_data['cluster_id'])
         )->first();
         if ($cluster->company_id != null) {
-            if ($validated_data['password'] !== $cluster->password) {
+            if (!Hash::check($validated_data['password'], $cluster->password)) {
                 return response()->json([
                     'status' => 403,
                     'message' => 'forbidden password'
