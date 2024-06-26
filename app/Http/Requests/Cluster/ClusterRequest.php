@@ -25,7 +25,8 @@ class ClusterRequest extends FormRequest
             'cluster_id' => 'required|exists:clusters,id|integer',
             'password' => 'string|required',
             'name' => 'nullable|string',
-            'new_password' => 'nullable|string'
+            'new_password' => 'nullable|string',
+            'new_password_confirm' => 'nullable|string|same:new_password',
         ];
     }
 }
